@@ -140,6 +140,7 @@ private struct CaptionList: View {
     let fontScale: Double
     let waiting: Bool
     @State private var stickToBottom = true
+    @State private var atBottom = true
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -175,8 +176,19 @@ private struct CaptionList: View {
             }
             .onScrollGeometryChange(for: Bool.self) { geometry in
                 geometry.contentOffset.y + geometry.containerSize.height >= geometry.contentSize.height - 48
-            } action: { _, atBottom in
-                stickToBottom = atBottom
+            } action: { _, isAtBottom in
+                // New captions make the content taller before we scroll, which
+                // briefly reads as "not at bottom" — that must not unstick.
+                // Only the user's own drags decide (see onScrollPhaseChange).
+                atBottom = isAtBottom
+                if isAtBottom { stickToBottom = true }
+            }
+            .onScrollPhaseChange { oldPhase, newPhase in
+                if newPhase == .interacting {
+                    stickToBottom = false
+                } else if newPhase == .idle, oldPhase != .idle {
+                    stickToBottom = atBottom
+                }
             }
             .onChange(of: transcript.rows) { scrollIfSticky(proxy) }
             .onChange(of: transcript.liveSource) { scrollIfSticky(proxy) }
