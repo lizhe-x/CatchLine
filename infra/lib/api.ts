@@ -170,7 +170,8 @@ export class Api extends Construct {
       timeout: Duration.seconds(10),
       role,
       logGroup,
-      environment: opts.environment,
+      // A bundled dependency uses node:punycode; keep its deprecation notice out of the logs.
+      environment: { NODE_OPTIONS: '--no-deprecation', ...opts.environment },
       bundling: {
         format: OutputFormat.ESM,
         minify: true,

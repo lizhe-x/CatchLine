@@ -18,7 +18,8 @@
       "allowDevelopmentAttestation": true,
       "freeDailySeconds": 180,
       "trialSeconds": 10800,
-      "paidMonthlySeconds": 144000
+      "paidMonthlySeconds": 144000,
+      "appAppleId": "6821463028"
     }
   }
 }

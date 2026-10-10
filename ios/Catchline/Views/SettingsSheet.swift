@@ -60,6 +60,15 @@ struct SettingsSheet: View {
                     }
                     Button("恢复购买") { Task { await store.restore() } }
                 }
+                Section {
+                    LabeledContent("匿名 ID") {
+                        Text(UserIdentity.current.uuidString.lowercased())
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
+                } footer: {
+                    Text("Catchline 不需要注册。这个随机 ID 只用来记录使用时长，需要删除记录时提供给我们即可。")
+                }
             }
             .navigationTitle("设置")
             .navigationBarTitleDisplayMode(.inline)
