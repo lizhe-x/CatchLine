@@ -28,11 +28,6 @@ struct CaptionSettings {
     }
 }
 
-struct KeyFetchError: LocalizedError {
-    let status: Int
-    var errorDescription: String? { "获取临时 key 失败（\(status)）" }
-}
-
 /// Keeps one live captioning stream running until `stop()`.
 ///
 /// The microphone runs continuously; Soniox streams come and go underneath.
@@ -42,7 +37,7 @@ struct KeyFetchError: LocalizedError {
 @Observable
 final class Captioner {
     enum Status {
-        case idle, starting, live, reconnecting, interrupted, stopping, needsSignIn, error
+        case idle, starting, live, reconnecting, interrupted, stopping, quotaExhausted, error
 
         var label: String {
             switch self {
@@ -52,7 +47,7 @@ final class Captioner {
             case .reconnecting: "重连中…"
             case .interrupted: "已暂停"
             case .stopping: "收尾中…"
-            case .needsSignIn: "需要登录"
+            case .quotaExhausted: "额度已用完"
             case .error: "出错了"
             }
         }
@@ -66,7 +61,12 @@ final class Captioner {
     private(set) var endedAt: Date?
     let transcript = Transcript()
 
-    private let auth: AuthService
+    /// Latest allowance from the server; drives the "remaining" display.
+    private(set) var plan: PlanStatus?
+    /// When the current lease started, for the local countdown between server updates.
+    private(set) var leaseStartedAt: Date?
+
+    private let api: APIClient
     private var config: SonioxConfig?
     private var source: AudioSource?
     private var audioContinuation: AsyncStream<AudioCaptureEvent>.Continuation?
@@ -80,8 +80,20 @@ final class Captioner {
     /// ~20 s of 16 kHz Int16 audio kept while disconnected.
     private static let maxPendingBytes = 16_000 * 2 * 20
 
-    init(auth: AuthService) {
-        self.auth = auth
+    init(api: APIClient) {
+        self.api = api
+    }
+
+    /// Seconds left right now: server figure minus time streamed in this lease.
+    func remainingSeconds(at date: Date = .now) -> Int? {
+        guard let plan else { return nil }
+        let streamed = leaseStartedAt.map { Int(date.timeIntervalSince($0)) } ?? 0
+        return max(0, plan.remainingSeconds - streamed)
+    }
+
+    func refreshPlan() async {
+        guard !wantRunning else { return }
+        do { plan = try await api.status() } catch { print("[captioner] status failed:", error) }
     }
 
     func start(with settings: CaptionSettings) async {
@@ -156,6 +168,8 @@ final class Captioner {
         endedAt = .now
         UIApplication.shared.isIdleTimerDisabled = false
         if status == .stopping { status = .idle }
+        // Settle the lease by server clock and refresh what's left.
+        if let latest = try? await api.endSession() { plan = latest }
     }
 
     // MARK: - Run loop
@@ -167,29 +181,49 @@ final class Captioner {
             var openedAt: Date?
             do {
                 guard var config else { return }
-                config.apiKey = try await fetchTemporaryKey()
+                let lease = try await api.startSession()
+                plan = lease.plan
+                config.apiKey = lease.apiKey
                 let stream = SonioxStream()
                 try await stream.open(config: config)
 
                 transcript.sessionRestarted()
                 self.stream = stream
                 openedAt = .now
+                leaseStartedAt = openedAt
                 if status != .interrupted { status = .live }
                 message = nil
 
-                defer {
+                // Rotate shortly before Soniox's hard cut at the lease limit:
+                // detach the stream (new audio queues in `pending`), then ask
+                // it to finalize, so the words in flight aren't lost.
+                let rotateAfter = max(Double(lease.leaseSeconds) - 3, Double(lease.leaseSeconds) * 0.8)
+                let rotation = Task { [weak self] in
+                    try? await Task.sleep(for: .seconds(rotateAfter))
+                    guard let self, !Task.isCancelled, self.stream === stream else { return }
                     self.stream = nil
+                    await stream.finish()
+                }
+                defer {
+                    rotation.cancel()
+                    if self.stream === stream { self.stream = nil }
                     stream.close()
+                    leaseStartedAt = nil
                 }
                 while true {
                     let response = try await stream.receive()
                     if let tokens = response.tokens, !tokens.isEmpty { transcript.apply(tokens) }
                     if response.finished == true { break }
                 }
-                // Server ended the stream: our stop(), or the duration cap.
+                // Server ended the stream: our stop(), or the lease ran out.
+                // Loop around for the next lease (or a quota error).
                 failures = 0
-            } catch AuthError.notSignedIn {
-                fail(.needsSignIn, "登录已过期，请重新登录")
+            } catch let APIError.quotaExhausted(latest) {
+                if let latest { plan = latest }
+                fail(.quotaExhausted, plan?.kind == .free ? "今天的免费额度用完了" : "本期额度用完了")
+                return
+            } catch APIError.attestationUnsupported {
+                fail(.error, "此设备不支持安全校验（App Attest），无法使用")
                 return
             } catch let error as SonioxServerError where error.code == 400 || error.code == 402 {
                 // Bad config or Soniox balance/budget exhausted: retrying won't help.
@@ -254,21 +288,7 @@ final class Captioner {
         endedAt = .now
         self.status = status
         self.message = message
-    }
-
-    private func fetchTemporaryKey() async throws -> String {
-        var request = URLRequest(url: AppConfig.keyEndpoint)
-        request.httpMethod = "POST"
-        request.timeoutInterval = 15
-        if !AppConfig.useLocalMock {
-            request.setValue("Bearer \(try await auth.validAccessToken())", forHTTPHeaderField: "Authorization")
-        }
-        let (data, response) = try await URLSession.shared.data(for: request)
-        let code = (response as? HTTPURLResponse)?.statusCode ?? 0
-        if code == 401 || code == 403 { throw AuthError.notSignedIn }
-        guard code == 200 else { throw KeyFetchError(status: code) }
-        struct Body: Decodable { let apiKey: String }
-        return try JSONDecoder().decode(Body.self, from: data).apiKey
+        Task { if let latest = try? await api.endSession() { plan = latest } }
     }
 
     private static func makeSource() -> AudioSource {

@@ -7,6 +7,18 @@
     "catchline:monthlyBudgetUsd": 5,
     "catchline:cognitoDomainPrefix": "catchline-deskfox",
     "catchline:iosUrlScheme": "com.deskfox.catchline",
-    "catchline:selfSignUp": false
+    "catchline:selfSignUp": false,
+    "catchline:appStore": {
+      "teamId": "GZ4LT9W9H9",
+      "bundleId": "com.deskfox.catchline",
+      "productIds": [
+        "com.deskfox.catchline.monthly",
+        "com.deskfox.catchline.yearly"
+      ],
+      "allowDevelopmentAttestation": true,
+      "freeDailySeconds": 180,
+      "trialSeconds": 10800,
+      "paidMonthlySeconds": 144000
+    }
   }
 }

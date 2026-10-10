@@ -25,6 +25,8 @@ export class SonioxError extends Error {
 export async function mintTemporaryKey(
   longLivedKey: string,
   clientReferenceId: string,
+  /** Hard cap on the stream this key opens; Soniox disconnects at the limit. */
+  maxSessionSeconds = MAX_SESSION_DURATION_SECONDS,
 ): Promise<TemporaryKey> {
   const res = await fetch(SONIOX_TEMP_KEY_URL, {
     method: 'POST',
@@ -36,7 +38,7 @@ export async function mintTemporaryKey(
       usage_type: 'transcribe_websocket',
       expires_in_seconds: EXPIRES_IN_SECONDS,
       single_use: true,
-      max_session_duration_seconds: MAX_SESSION_DURATION_SECONDS,
+      max_session_duration_seconds: Math.max(1, Math.floor(maxSessionSeconds)),
       client_reference_id: clientReferenceId.slice(0, 256),
     }),
     signal: AbortSignal.timeout(8000),

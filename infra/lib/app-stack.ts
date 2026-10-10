@@ -20,7 +20,7 @@ import { HttpOrigin, S3BucketOrigin } from 'aws-cdk-lib/aws-cloudfront-origins'
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3'
 import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment'
 import type { Construct } from 'constructs'
-import { Api } from './api.ts'
+import { Api, type AppStoreProps } from './api.ts'
 import { Auth } from './auth.ts'
 import { Monitoring } from './monitoring.ts'
 
@@ -37,6 +37,7 @@ export interface AppStackProps extends StackProps {
   alarmEmail: string
   monthlyBudgetUsd: number
   costTag: { key: string; value: string }
+  appStore: AppStoreProps
 }
 
 export class AppStack extends Stack {
@@ -56,13 +57,14 @@ export class AppStack extends Stack {
       sonioxKeyParameterName: props.sonioxKeyParameterName,
       jwtIssuer: auth.issuerUrl,
       jwtAudience: [auth.webClient.userPoolClientId, auth.iosClient.userPoolClientId],
+      appStore: props.appStore,
     })
 
     // --- Alarms (email via SNS) + monthly budget ---
     new Monitoring(this, 'Monitoring', {
       alarmEmail: props.alarmEmail,
       monthlyBudgetUsd: props.monthlyBudgetUsd,
-      temporaryKeyFunction: api.fn,
+      functions: { TemporaryKey: api.fn, AppApi: api.appFn },
       costTag: props.costTag,
     })
 

@@ -1,30 +1,9 @@
 // POST /api/temporary-api-key
 // API Gateway's JWT authorizer has already verified the Cognito access token,
 // so the caller's identity (`sub`) is trusted here.
-import { GetParameterCommand, SSMClient } from '@aws-sdk/client-ssm'
 import type { APIGatewayProxyEventV2WithJWTAuthorizer, APIGatewayProxyResultV2 } from 'aws-lambda'
 import { mintTemporaryKey, SonioxError } from './soniox.ts'
-
-const ssm = new SSMClient({})
-const PARAMETER_NAME = process.env.SONIOX_KEY_PARAMETER!
-
-// Read once per container. On failure, drop the cached promise so the next
-// invocation retries instead of serving a cached error forever.
-let longLivedKey: Promise<string> | undefined
-function getLongLivedKey(): Promise<string> {
-  longLivedKey ??= ssm
-    .send(new GetParameterCommand({ Name: PARAMETER_NAME, WithDecryption: true }))
-    .then((res) => {
-      const value = res.Parameter?.Value
-      if (!value) throw new Error(`SSM parameter ${PARAMETER_NAME} is empty`)
-      return value
-    })
-    .catch((err: unknown) => {
-      longLivedKey = undefined
-      throw err
-    })
-  return longLivedKey
-}
+import { getLongLivedKey } from './sonioxKey.ts'
 
 function json(statusCode: number, body: unknown): APIGatewayProxyResultV2 {
   return {

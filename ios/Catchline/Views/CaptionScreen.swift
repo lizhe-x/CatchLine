@@ -8,6 +8,7 @@ struct CaptionScreen: View {
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
     @State private var showSettings = false
+    @State private var showPaywall = false
     @State private var confirmNewSession = false
 
     var body: some View {
@@ -18,7 +19,7 @@ struct CaptionScreen: View {
             if let message = captioner.message {
                 Text(message)
                     .font(.footnote)
-                    .foregroundStyle(captioner.status == .error || captioner.status == .needsSignIn ? .red : .secondary)
+                    .foregroundStyle(captioner.status == .error ? .red : .secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(12)
                     .background(.thinMaterial, in: .rect(cornerRadius: 10))
@@ -32,7 +33,13 @@ struct CaptionScreen: View {
             if AppConfig.autoStart && captioner.status == .idle { start() }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsSheet()
+            SettingsSheet(showPaywall: $showPaywall)
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallSheet()
+        }
+        .onChange(of: captioner.status) { _, status in
+            if status == .quotaExhausted { showPaywall = true }
         }
         .confirmationDialog("开始新会话会清空当前字幕", isPresented: $confirmNewSession, titleVisibility: .visible) {
             Button("清空并开始", role: .destructive) { start() }
@@ -57,6 +64,7 @@ struct CaptionScreen: View {
                 }
             }
             Spacer()
+            AllowanceView()
             Button("A−") { fontScale = max(0.8, ((fontScale - 0.1) * 10).rounded() / 10) }
                 .accessibilityLabel("缩小字号")
             Button("A+") { fontScale = min(2.2, ((fontScale + 0.1) * 10).rounded() / 10) }
@@ -94,6 +102,14 @@ struct CaptionScreen: View {
                     Text(captioner.transcript.isEmpty ? "开始" : "新会话").frame(maxWidth: .infinity, minHeight: 50)
                 }
                 .buttonStyle(.borderedProminent)
+                if captioner.status == .quotaExhausted {
+                    Button {
+                        showPaywall = true
+                    } label: {
+                        Text("升级").frame(minHeight: 50)
+                    }
+                    .buttonStyle(.bordered)
+                }
                 if !captioner.transcript.isEmpty, let file = exportFile() {
                     ShareLink(item: file) {
                         Label("导出", systemImage: "square.and.arrow.up").frame(minHeight: 50)
@@ -111,7 +127,7 @@ struct CaptionScreen: View {
         switch captioner.status {
         case .live: .green
         case .starting, .reconnecting, .interrupted, .stopping: .orange
-        case .error, .needsSignIn: .red
+        case .error, .quotaExhausted: .red
         case .idle: .gray
         }
     }
@@ -131,6 +147,33 @@ struct CaptionScreen: View {
             return url
         } catch {
             return nil
+        }
+    }
+}
+
+/// "今日 2:40" / "试用 2:58:10" / "本月 39.5h" — counts down live while streaming.
+private struct AllowanceView: View {
+    @Environment(Captioner.self) private var captioner
+
+    var body: some View {
+        if let plan = captioner.plan {
+            TimelineView(.periodic(from: .now, by: 1)) { context in
+                let left = captioner.remainingSeconds(at: context.date) ?? plan.remainingSeconds
+                Text(label(plan.kind, left))
+                    .font(.caption.monospacedDigit().weight(.medium))
+                    .foregroundStyle(left < 60 ? .orange : .secondary)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(.thinMaterial, in: .capsule)
+            }
+        }
+    }
+
+    private func label(_ kind: PlanStatus.Kind, _ seconds: Int) -> String {
+        switch kind {
+        case .free: "今日 \(String(format: "%d:%02d", seconds / 60, seconds % 60))"
+        case .trial: "试用 \(formatElapsed(TimeInterval(seconds)))"
+        case .paid: "本月 \(String(format: "%.1f", Double(seconds) / 3600))h"
         }
     }
 }

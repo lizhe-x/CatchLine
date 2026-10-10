@@ -2,6 +2,7 @@
 import { App, Tags } from 'aws-cdk-lib'
 import { CertStack } from '../lib/cert-stack.ts'
 import { AppStack } from '../lib/app-stack.ts'
+import type { AppStoreProps } from '../lib/api.ts'
 
 const app = new App()
 const ctx = <T>(key: string): T => app.node.getContext(`catchline:${key}`) as T
@@ -25,6 +26,7 @@ new AppStack(app, 'CatchlineApp', {
   sonioxKeyParameterName: ctx('sonioxKeyParameter'),
   alarmEmail: ctx('alarmEmail'),
   monthlyBudgetUsd: ctx('monthlyBudgetUsd'),
+  appStore: ctx<AppStoreProps>('appStore'),
   costTag,
 })
 
