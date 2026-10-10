@@ -1,6 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#111214"/>
-  <rect x="104" y="168" width="304" height="40" rx="20" fill="#f7f7f5"/>
-  <rect x="104" y="244" width="224" height="40" rx="20" fill="#f7f7f5"/>
-  <rect x="104" y="320" width="168" height="28" rx="14" fill="#f5b83d"/>
+<svg width="1024" height="1024" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1F4A4E"/><stop offset="100%" stop-color="#123236"/></linearGradient>
+    <linearGradient id="face" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#9DBBE3"/><stop offset="100%" stop-color="#7295C4"/></linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+  <g transform="translate(120, 126) scale(1.3)">
+    <path d="M -68,-10 L -36,-72 L -18,-12 Z" fill="#7295C4"/>
+    <path d="M -56,-20 L -38,-56 L -28,-22 Z" fill="#FF9A7A"/>
+    <path d="M 68,-10 L 36,-72 L 18,-12 Z" fill="#7295C4"/>
+    <path d="M 56,-20 L 38,-56 L 28,-22 Z" fill="#FF9A7A"/>
+    <path d="M -68,-10 L 68,-10 L 0,68 Z" fill="url(#face)"/>
+    <path d="M -22,18 L 22,18 L 0,52 Z" fill="#F4F7FB"/>
+    <circle cx="-22" cy="4" r="5" fill="#172238"/>
+    <circle cx="22" cy="4" r="5" fill="#172238"/>
+  </g>
+<g><rect x="166" y="162" width="34" height="34" rx="8" fill="#F4F7FB"/><text x="183.0" y="180.0" font-family="'SF Pro Rounded','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="25" fill="#1F4A4E" text-anchor="middle" dominant-baseline="central">A</text><rect x="203" y="162" width="34" height="34" rx="8" fill="#FF9A7A"/><text x="220.0" y="180.0" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-weight="600" font-size="24" fill="#123236" text-anchor="middle" dominant-baseline="central">中</text><rect x="166" y="199" width="34" height="34" rx="8" fill="#9DBBE3"/><text x="183.0" y="217.0" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif" font-weight="700" font-size="23" fill="#123236" text-anchor="middle" dominant-baseline="central">あ</text><rect x="203" y="199" width="34" height="34" rx="8" fill="#F4F7FB"/><text x="220.0" y="217.0" font-family="'SF Pro Rounded','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="24" fill="#1F4A4E" text-anchor="middle" dominant-baseline="central">Ñ</text></g>
 </svg>
