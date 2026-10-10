@@ -1,0 +1,5 @@
+Catchline.xcodeproj/
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
