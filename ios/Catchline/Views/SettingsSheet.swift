@@ -5,6 +5,7 @@ struct SettingsSheet: View {
     @Environment(SubscriptionStore.self) private var store
     @Environment(Captioner.self) private var captioner
     @Binding var showPaywall: Bool
+    private let languages = Language.all
     @Environment(\.dismiss) private var dismiss
     @AppStorage(Prefs.sourceLang) private var sourceLang = "en"
     @AppStorage(Prefs.targetLang) private var targetLang = Language.defaultTarget
@@ -16,11 +17,13 @@ struct SettingsSheet: View {
             Form {
                 Section("Languages") {
                     Picker("Listen to", selection: $sourceLang) {
-                        ForEach(Language.all) { Text($0.label).tag($0.code) }
+                        ForEach(languages) { Text($0.label).tag($0.code) }
                     }
+                    .pickerStyle(.navigationLink)
                     Picker("Translate into", selection: $targetLang) {
-                        ForEach(Language.all) { Text($0.label).tag($0.code) }
+                        ForEach(languages) { Text($0.label).tag($0.code) }
                     }
+                    .pickerStyle(.navigationLink)
                 }
                 Section {
                     TextField("Mark Johnson, Acme Corp, W-2", text: $terms, axis: .vertical)
@@ -58,7 +61,7 @@ struct SettingsSheet: View {
                             showPaywall = true
                         }
                     }
-                    Button("Restore Purchases") { Task { await store.restore() } }
+                    Button("Restore Purchases") { Task { _ = try? await store.restore(); await captioner.refreshPlan() } }
                 }
                 Section {
                     LabeledContent("Anonymous ID") {

@@ -14,6 +14,7 @@ struct CaptionScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             header
+            AllowanceBar { showPaywall = true }
             Divider()
             CaptionList(transcript: captioner.transcript, fontScale: fontScale, waiting: captioner.status == .live)
             if let message = captioner.message {
@@ -64,7 +65,6 @@ struct CaptionScreen: View {
                 }
             }
             Spacer()
-            AllowanceView { showPaywall = true }
             Button("A−") { fontScale = max(0.8, ((fontScale - 0.1) * 10).rounded() / 10) }
                 .accessibilityLabel("Smaller text")
             Button("A+") { fontScale = min(2.2, ((fontScale + 0.1) * 10).rounded() / 10) }
@@ -152,8 +152,8 @@ struct CaptionScreen: View {
 }
 
 /// "今日 2:40" / "试用 2:58:10" / "本月 39.5h" — counts down live while streaming.
-/// Free users see it as a button: tap to upgrade.
-private struct AllowanceView: View {
+/// "Left today: 2m 30s  [Upgrade to Pro]" — counts down live while streaming.
+private struct AllowanceBar: View {
     @Environment(Captioner.self) private var captioner
     var onUpgrade: () -> Void
 
@@ -161,36 +161,38 @@ private struct AllowanceView: View {
         if let plan = captioner.plan {
             TimelineView(.periodic(from: .now, by: 1)) { context in
                 let left = captioner.remainingSeconds(at: context.date) ?? plan.remainingSeconds
-                if plan.kind == .free {
-                    Button(action: onUpgrade) {
-                        HStack(spacing: 6) {
-                            Text(label(plan.kind, left)).monospacedDigit()
-                            Text("Upgrade").fontWeight(.bold)
-                        }
-                        .font(.caption.weight(.medium))
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .foregroundStyle(.white)
-                        .background(left < 60 ? Color.orange : Color.accentColor, in: .capsule)
+                HStack(spacing: 8) {
+                    Image(systemName: "clock")
+                    Text(label(plan.kind, left)).monospacedDigit()
+                    Spacer()
+                    if plan.kind == .free {
+                        Button("Upgrade to Pro", action: onUpgrade)
+                            .font(.footnote.weight(.semibold))
+                            .buttonStyle(.borderedProminent)
+                            .buttonBorderShape(.capsule)
+                            .controlSize(.small)
                     }
-                    .buttonStyle(.plain)
-                } else {
-                    Text(label(plan.kind, left))
-                        .font(.caption.monospacedDigit().weight(.medium))
-                        .foregroundStyle(left < 60 ? .orange : .secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(.thinMaterial, in: .capsule)
                 }
+                .font(.footnote)
+                .foregroundStyle(left < 60 ? .orange : .secondary)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
             }
         }
     }
 
     private func label(_ kind: PlanStatus.Kind, _ seconds: Int) -> String {
+        let duration = Duration.seconds(seconds)
         switch kind {
-        case .free: String(localized: "Today \(String(format: "%d:%02d", seconds / 60, seconds % 60))")
-        case .trial: String(localized: "Trial \(formatElapsed(TimeInterval(seconds)))")
-        case .paid: String(localized: "This month \(String(format: "%.1f", Double(seconds) / 3600))h")
+        case .free:
+            let text = duration.formatted(.units(allowed: [.minutes, .seconds], width: .abbreviated, zeroValueUnits: .show(length: 1)))
+            return String(localized: "Left today: \(text)")
+        case .trial:
+            let text = duration.formatted(.units(allowed: [.hours, .minutes], width: .abbreviated))
+            return String(localized: "Trial time left: \(text)")
+        case .paid:
+            let text = duration.formatted(.units(allowed: [.hours, .minutes], width: .abbreviated))
+            return String(localized: "Left this month: \(text)")
         }
     }
 }

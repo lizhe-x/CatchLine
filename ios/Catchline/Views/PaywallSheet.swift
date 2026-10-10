@@ -6,7 +6,11 @@ struct PaywallSheet: View {
     @Environment(Captioner.self) private var captioner
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.purchase) private var purchase
     @State private var error: String?
+    @State private var notice: String?
+    @State private var busyProduct: String?
+    @State private var restoring = false
 
     /// In the trial and out of hours: upgrading to yearly starts it today.
     private var trialUsedUp: Bool {
@@ -47,10 +51,18 @@ struct PaywallSheet: View {
                         }
                     }
                     if let error {
-                        Text(error).font(.footnote).foregroundStyle(.red)
+                        Text(error).font(.footnote).foregroundStyle(.red).multilineTextAlignment(.center)
                     }
-                    Button("Restore Purchases") { Task { await store.restore() } }
-                        .font(.footnote)
+                    if let notice {
+                        Text(notice).font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    }
+                    Button {
+                        Task { await restore() }
+                    } label: {
+                        if restoring { ProgressView() } else { Text("Restore Purchases") }
+                    }
+                    .font(.footnote)
+                    .disabled(restoring)
                     fineprint
                 }
                 .padding(24)
@@ -100,7 +112,11 @@ struct PaywallSheet: View {
                     Text(detail).font(.subheadline).foregroundStyle(prominent ? .white.opacity(0.85) : .secondary)
                 }
                 Spacer()
-                Text(product.displayPrice).font(.headline)
+                if busyProduct == product.id {
+                    ProgressView().tint(prominent ? .white : nil)
+                } else {
+                    Text(product.displayPrice).font(.headline)
+                }
             }
             .padding(16)
             .frame(maxWidth: .infinity)
@@ -108,7 +124,7 @@ struct PaywallSheet: View {
             .background(prominent ? AnyShapeStyle(.tint) : AnyShapeStyle(.thinMaterial), in: .rect(cornerRadius: 14))
         }
         .buttonStyle(.plain)
-        .disabled(store.purchasing)
+        .disabled(busyProduct != nil)
     }
 
     private func yearlyDetail(_ yearly: Product) -> String {
@@ -132,14 +148,44 @@ struct PaywallSheet: View {
     }
 
     private func buy(_ product: Product) async {
+        error = nil
+        notice = nil
+        busyProduct = product.id
+        defer { busyProduct = nil }
         do {
-            error = nil
-            if try await store.purchase(product) {
+            let result = try await purchase(product, options: store.purchaseOptions)
+            switch await store.handle(result) {
+            case .purchased:
                 await captioner.refreshPlan()
-                if trialUsedUp == false { dismiss() }
+                dismiss()
+            case .pending:
+                notice = String(localized: "Your purchase is pending approval. It will activate automatically.")
+            case .cancelled:
+                break
+            case let .failed(reason):
+                error = String(localized: "Purchase failed: \(reason)")
             }
         } catch {
-            self.error = error.localizedDescription
+            print("[store] purchase threw:", error)
+            self.error = String(localized: "Purchase failed: \(error.localizedDescription)")
+        }
+    }
+
+    private func restore() async {
+        error = nil
+        notice = nil
+        restoring = true
+        defer { restoring = false }
+        do {
+            if try await store.restore() {
+                await captioner.refreshPlan()
+                dismiss()
+            } else {
+                notice = String(localized: "No active subscription was found for this Apple Account.")
+            }
+        } catch {
+            print("[store] restore threw:", error)
+            self.error = String(localized: "Couldn’t restore purchases: \(error.localizedDescription)")
         }
     }
 }

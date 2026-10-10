@@ -14,7 +14,6 @@ final class SubscriptionStore {
     private(set) var activeJWS: String?
     /// Whether this Apple ID can still get the monthly plan's free trial.
     private(set) var trialEligible = false
-    private(set) var purchasing = false
     /// A product request has completed (successfully or not).
     private(set) var productsLoaded = false
     private(set) var loadError: String?
@@ -50,28 +49,40 @@ final class SubscriptionStore {
         await refreshEntitlement()
     }
 
-    /// Returns true when the purchase completed (not cancelled/pending).
-    func purchase(_ product: Product) async throws -> Bool {
-        purchasing = true
-        defer { purchasing = false }
-        let result = try await product.purchase(options: [.appAccountToken(UserIdentity.current)])
+    enum PurchaseOutcome { case purchased, pending, cancelled, failed(String) }
+
+    /// Purchase options: tie the transaction to our anonymous user id.
+    var purchaseOptions: Set<Product.PurchaseOption> { [.appAccountToken(UserIdentity.current)] }
+
+    /// Processes the result of SwiftUI's `PurchaseAction` (which presents the
+    /// confirmation sheet on the right window scene).
+    func handle(_ result: Product.PurchaseResult) async -> PurchaseOutcome {
         switch result {
         case let .success(.verified(transaction)):
+            print("[store] purchased \(transaction.productID) offer=\(String(describing: transaction.offer?.type))")
             await transaction.finish()
             await refreshEntitlement()
-            return true
-        case .success(.unverified):
-            return false
-        case .pending, .userCancelled:
-            return false
+            return .purchased
+        case let .success(.unverified(_, error)):
+            print("[store] unverified purchase:", error)
+            return .failed(error.localizedDescription)
+        case .pending:
+            print("[store] purchase pending (Ask to Buy / SCA)")
+            return .pending
+        case .userCancelled:
+            print("[store] purchase cancelled")
+            return .cancelled
         @unknown default:
-            return false
+            return .failed("unknown")
         }
     }
 
-    func restore() async {
-        try? await AppStore.sync()
+    /// Returns true if an active subscription was found.
+    func restore() async throws -> Bool {
+        try await AppStore.sync()
         await refreshEntitlement()
+        print("[store] restore finished, subscribed=\(isSubscribed)")
+        return isSubscribed
     }
 
     func refreshEntitlement() async {
