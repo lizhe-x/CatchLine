@@ -42,6 +42,10 @@ final class APIClient {
     private let attest = DCAppAttestService.shared
     private let keyItem = KeychainItem(account: "app-attest-key-id")
     private var registration: Task<String, Error>?
+    /// Signed requests go out one at a time: App Attest assertions carry an
+    /// increasing counter, and the server rejects any that arrive out of order.
+    private var busy = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
     private let decoder: JSONDecoder = {
         let d = JSONDecoder()
         d.dateDecodingStrategy = .iso8601WithFractionalSeconds
@@ -79,7 +83,19 @@ final class APIClient {
         let entitlement: String?
     }
 
-    private func signedPost<T: Decodable>(_ path: String, as type: T.Type, retried: Bool = false) async throws -> T {
+    private func signedPost<T: Decodable>(_ path: String, as type: T.Type) async throws -> T {
+        if busy {
+            await withCheckedContinuation { waiters.append($0) }
+        } else {
+            busy = true
+        }
+        defer {
+            if waiters.isEmpty { busy = false } else { waiters.removeFirst().resume() }
+        }
+        return try await sendSigned(path, as: type, retried: false)
+    }
+
+    private func sendSigned<T: Decodable>(_ path: String, as type: T.Type, retried: Bool) async throws -> T {
         let body = RequestBody(
             userId: UserIdentity.current.uuidString.lowercased(),
             ts: Int64(Date.now.timeIntervalSince1970 * 1000),
@@ -109,7 +125,7 @@ final class APIClient {
         // Server lost or rejected our key (e.g. app reinstalled from backup): re-attest once.
         if status == 401, !retried, ["unknown_key", "invalid_assertion"].contains(error?.error) {
             keyItem.delete()
-            return try await signedPost(path, as: type, retried: true)
+            return try await sendSigned(path, as: type, retried: true)
         }
         throw APIError.http(status, error?.error ?? "")
     }
