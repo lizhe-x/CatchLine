@@ -3,7 +3,7 @@ import SwiftUI
 struct CaptionScreen: View {
     @Environment(Captioner.self) private var captioner
     @AppStorage(Prefs.sourceLang) private var sourceLang = "en"
-    @AppStorage(Prefs.targetLang) private var targetLang = "zh"
+    @AppStorage(Prefs.targetLang) private var targetLang = Language.defaultTarget
     @AppStorage(Prefs.fontScale) private var fontScale = 1.0
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
@@ -41,10 +41,10 @@ struct CaptionScreen: View {
         .onChange(of: captioner.status) { _, status in
             if status == .quotaExhausted { showPaywall = true }
         }
-        .confirmationDialog("开始新会话会清空当前字幕", isPresented: $confirmNewSession, titleVisibility: .visible) {
-            Button("清空并开始", role: .destructive) { start() }
+        .confirmationDialog("Starting a new session clears the current captions", isPresented: $confirmNewSession, titleVisibility: .visible) {
+            Button("Clear and Start", role: .destructive) { start() }
         } message: {
-            Text("可以先导出再开始。")
+            Text("You can export them first.")
         }
     }
 
@@ -64,18 +64,18 @@ struct CaptionScreen: View {
                 }
             }
             Spacer()
-            AllowanceView()
+            AllowanceView { showPaywall = true }
             Button("A−") { fontScale = max(0.8, ((fontScale - 0.1) * 10).rounded() / 10) }
-                .accessibilityLabel("缩小字号")
+                .accessibilityLabel("Smaller text")
             Button("A+") { fontScale = min(2.2, ((fontScale + 0.1) * 10).rounded() / 10) }
-                .accessibilityLabel("放大字号")
+                .accessibilityLabel("Larger text")
             Button {
                 showSettings = true
             } label: {
                 Image(systemName: "slider.horizontal.3")
             }
             .disabled(captioner.status.isActive)
-            .accessibilityLabel("设置")
+            .accessibilityLabel("Settings")
         }
         .font(.body.weight(.semibold))
         .buttonStyle(.borderless)
@@ -90,7 +90,7 @@ struct CaptionScreen: View {
                 Button(role: .destructive) {
                     Task { await captioner.stop() }
                 } label: {
-                    Text("停止").frame(maxWidth: .infinity, minHeight: 50)
+                    Text("Stop").frame(maxWidth: .infinity, minHeight: 50)
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.red)
@@ -99,20 +99,20 @@ struct CaptionScreen: View {
                 Button {
                     if captioner.transcript.isEmpty { start() } else { confirmNewSession = true }
                 } label: {
-                    Text(captioner.transcript.isEmpty ? "开始" : "新会话").frame(maxWidth: .infinity, minHeight: 50)
+                    Text(captioner.transcript.isEmpty ? "Start" as LocalizedStringKey : "New Session").frame(maxWidth: .infinity, minHeight: 50)
                 }
                 .buttonStyle(.borderedProminent)
                 if captioner.status == .quotaExhausted {
                     Button {
                         showPaywall = true
                     } label: {
-                        Text("升级").frame(minHeight: 50)
+                        Text("Upgrade").frame(minHeight: 50)
                     }
                     .buttonStyle(.bordered)
                 }
                 if !captioner.transcript.isEmpty, let file = exportFile() {
                     ShareLink(item: file) {
-                        Label("导出", systemImage: "square.and.arrow.up").frame(minHeight: 50)
+                        Label("Export", systemImage: "square.and.arrow.up").frame(minHeight: 50)
                     }
                     .buttonStyle(.bordered)
                 }
@@ -152,28 +152,45 @@ struct CaptionScreen: View {
 }
 
 /// "今日 2:40" / "试用 2:58:10" / "本月 39.5h" — counts down live while streaming.
+/// Free users see it as a button: tap to upgrade.
 private struct AllowanceView: View {
     @Environment(Captioner.self) private var captioner
+    var onUpgrade: () -> Void
 
     var body: some View {
         if let plan = captioner.plan {
             TimelineView(.periodic(from: .now, by: 1)) { context in
                 let left = captioner.remainingSeconds(at: context.date) ?? plan.remainingSeconds
-                Text(label(plan.kind, left))
-                    .font(.caption.monospacedDigit().weight(.medium))
-                    .foregroundStyle(left < 60 ? .orange : .secondary)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(.thinMaterial, in: .capsule)
+                if plan.kind == .free {
+                    Button(action: onUpgrade) {
+                        HStack(spacing: 6) {
+                            Text(label(plan.kind, left)).monospacedDigit()
+                            Text("Upgrade").fontWeight(.bold)
+                        }
+                        .font(.caption.weight(.medium))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 4)
+                        .foregroundStyle(.white)
+                        .background(left < 60 ? Color.orange : Color.accentColor, in: .capsule)
+                    }
+                    .buttonStyle(.plain)
+                } else {
+                    Text(label(plan.kind, left))
+                        .font(.caption.monospacedDigit().weight(.medium))
+                        .foregroundStyle(left < 60 ? .orange : .secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(.thinMaterial, in: .capsule)
+                }
             }
         }
     }
 
     private func label(_ kind: PlanStatus.Kind, _ seconds: Int) -> String {
         switch kind {
-        case .free: "今日 \(String(format: "%d:%02d", seconds / 60, seconds % 60))"
-        case .trial: "试用 \(formatElapsed(TimeInterval(seconds)))"
-        case .paid: "本月 \(String(format: "%.1f", Double(seconds) / 3600))h"
+        case .free: String(localized: "Today \(String(format: "%d:%02d", seconds / 60, seconds % 60))")
+        case .trial: String(localized: "Trial \(formatElapsed(TimeInterval(seconds)))")
+        case .paid: String(localized: "This month \(String(format: "%.1f", Double(seconds) / 3600))h")
         }
     }
 }
@@ -190,7 +207,7 @@ private struct CaptionList: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     if transcript.rows.isEmpty && transcript.liveSource.isEmpty {
-                        Text(waiting ? "正在听…开始说话吧" : "字幕会显示在这里")
+                        Text(waiting ? "Listening… start talking" as LocalizedStringKey : "Captions will appear here")
                             .foregroundStyle(.secondary)
                             .frame(maxWidth: .infinity)
                             .padding(.top, 200)
@@ -242,7 +259,7 @@ private struct CaptionList: View {
                         stickToBottom = true
                         withAnimation { proxy.scrollTo("bottom", anchor: .bottom) }
                     } label: {
-                        Label("回到最新", systemImage: "arrow.down")
+                        Label("Jump to Latest", systemImage: "arrow.down")
                             .font(.subheadline.weight(.semibold))
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)

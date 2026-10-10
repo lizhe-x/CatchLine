@@ -7,18 +7,18 @@ struct SettingsSheet: View {
     @Binding var showPaywall: Bool
     @Environment(\.dismiss) private var dismiss
     @AppStorage(Prefs.sourceLang) private var sourceLang = "en"
-    @AppStorage(Prefs.targetLang) private var targetLang = "zh"
+    @AppStorage(Prefs.targetLang) private var targetLang = Language.defaultTarget
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("语言") {
-                    Picker("听", selection: $sourceLang) {
+                Section("Languages") {
+                    Picker("Listen to", selection: $sourceLang) {
                         ForEach(Language.all) { Text($0.label).tag($0.code) }
                     }
-                    Picker("翻译成", selection: $targetLang) {
+                    Picker("Translate into", selection: $targetLang) {
                         ForEach(Language.all) { Text($0.label).tag($0.code) }
                     }
                 }
@@ -28,53 +28,53 @@ struct SettingsSheet: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                 } header: {
-                    Text("关键词")
+                    Text("Keywords")
                 } footer: {
-                    Text("人名、公司、术语，用逗号或换行分隔。")
+                    Text("Names, companies, jargon. Separate with commas or new lines.")
                 }
                 Section {
-                    TextField("和房东通电话，讨论续租和维修。", text: $background, axis: .vertical)
+                    TextField("Call with my landlord about renewing the lease and repairs.", text: $background, axis: .vertical)
                         .lineLimit(2...6)
                 } header: {
-                    Text("背景说明（可选）")
+                    Text("Background (optional)")
                 } footer: {
-                    Text("关键词和背景会传给识别引擎，能明显提高专有名词的准确率。开始后不可修改。")
+                    Text("Keywords and background are sent to the speech engine and noticeably improve accuracy for names and terms. They can’t be changed once a session starts.")
                 }
-                Section("订阅") {
-                    LabeledContent("当前方案", value: planName)
+                Section("Subscription") {
+                    LabeledContent("Current plan", value: planName)
                     if let plan = captioner.plan {
-                        LabeledContent(plan.kind == .free ? "今日剩余" : "剩余时长", value: remainingText(plan.remainingSeconds))
+                        LabeledContent(plan.kind == .free ? "Left today" as LocalizedStringKey : "Time left", value: remainingText(plan.remainingSeconds))
                     }
                     if store.isSubscribed {
-                        Button("管理订阅") {
+                        Button("Manage Subscription") {
                             Task {
                                 guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
                                 try? await AppStore.showManageSubscriptions(in: scene)
                             }
                         }
                     } else {
-                        Button("升级到 Pro") {
+                        Button("Upgrade to Pro") {
                             dismiss()
                             showPaywall = true
                         }
                     }
-                    Button("恢复购买") { Task { await store.restore() } }
+                    Button("Restore Purchases") { Task { await store.restore() } }
                 }
                 Section {
-                    LabeledContent("匿名 ID") {
+                    LabeledContent("Anonymous ID") {
                         Text(UserIdentity.current.uuidString.lowercased())
                             .font(.caption.monospaced())
                             .textSelection(.enabled)
                     }
                 } footer: {
-                    Text("Catchline 不需要注册。这个随机 ID 只用来记录使用时长，需要删除记录时提供给我们即可。")
+                    Text("Catchline doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.")
                 }
             }
-            .navigationTitle("设置")
+            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("完成") { dismiss() }
+                    Button("Done") { dismiss() }
                 }
             }
         }
@@ -82,13 +82,15 @@ struct SettingsSheet: View {
 
     private var planName: String {
         switch captioner.plan?.kind {
-        case .trial: "免费试用"
-        case .paid: store.activeTransaction?.productID == AppConfig.yearlyProductID ? "Pro 年付" : "Pro 月付"
-        case .free, nil: "免费版（每天 3 分钟）"
+        case .trial: String(localized: "Free trial")
+        case .paid: store.activeTransaction?.productID == AppConfig.yearlyProductID ? String(localized: "Pro Yearly") : String(localized: "Pro Monthly")
+        case .free, nil: String(localized: "Free (3 minutes a day)")
         }
     }
 
     private func remainingText(_ seconds: Int) -> String {
-        seconds >= 3600 ? String(format: "%.1f 小时", Double(seconds) / 3600) : String(format: "%d 分 %02d 秒", seconds / 60, seconds % 60)
+        seconds >= 3600
+            ? String(localized: "\(String(format: "%.1f", Double(seconds) / 3600)) hours")
+            : String(localized: "\(String(seconds / 60)) min \(String(format: "%02d", seconds % 60)) s")
     }
 }

@@ -41,14 +41,14 @@ final class Captioner {
 
         var label: String {
             switch self {
-            case .idle: "未开始"
-            case .starting: "连接中…"
-            case .live: "实时"
-            case .reconnecting: "重连中…"
-            case .interrupted: "已暂停"
-            case .stopping: "收尾中…"
-            case .quotaExhausted: "额度已用完"
-            case .error: "出错了"
+            case .idle: String(localized: "Ready")
+            case .starting: String(localized: "Connecting…")
+            case .live: String(localized: "Live")
+            case .reconnecting: String(localized: "Reconnecting…")
+            case .interrupted: String(localized: "Paused")
+            case .stopping: String(localized: "Finishing…")
+            case .quotaExhausted: String(localized: "Out of time")
+            case .error: String(localized: "Error")
             }
         }
 
@@ -100,7 +100,7 @@ final class Captioner {
         guard !wantRunning else { return }
         guard await MicrophonePermission.request() else {
             status = .error
-            message = "没有麦克风权限。请到 设置 → Catchline 打开麦克风。"
+            message = String(localized: "Microphone access is off. Turn it on in Settings → Catchline.")
             return
         }
 
@@ -120,7 +120,7 @@ final class Captioner {
         } catch {
             wantRunning = false
             status = .error
-            message = "无法启动麦克风：\(error.localizedDescription)"
+            message = String(localized: "Couldn’t start the microphone: \(error.localizedDescription)")
             return
         }
         self.source = source
@@ -220,10 +220,10 @@ final class Captioner {
                 failures = 0
             } catch let APIError.quotaExhausted(latest) {
                 if let latest { plan = latest }
-                fail(.quotaExhausted, plan?.kind == .free ? "今天的免费额度用完了" : "本期额度用完了")
+                fail(.quotaExhausted, plan?.kind == .free ? String(localized: "You’ve used today’s free minutes") : String(localized: "You’ve used this period’s hours"))
                 return
             } catch APIError.attestationUnsupported {
-                fail(.error, "此设备不支持安全校验（App Attest），无法使用")
+                fail(.error, String(localized: "This device doesn’t support App Attest, which Catchline requires"))
                 return
             } catch let error as SonioxServerError where error.code == 400 || error.code == 402 {
                 // Bad config or Soniox balance/budget exhausted: retrying won't help.
@@ -266,14 +266,14 @@ final class Captioner {
             }
         case .interrupted:
             status = .interrupted
-            message = "麦克风被系统占用（例如来电），结束后会自动继续"
+            message = String(localized: "The microphone is in use by the system (e.g. a call). Captions resume automatically afterwards.")
         case .resumed:
             if status == .interrupted {
                 status = stream == nil ? .reconnecting : .live
                 message = nil
             }
         case let .failed(reason):
-            message = "麦克风出错：\(reason)"
+            message = String(localized: "Microphone error: \(reason)")
         }
     }
 

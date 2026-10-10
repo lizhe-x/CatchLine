@@ -1,0 +1,19 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "CFBundleDisplayName": {
+      "shouldTranslate": false
+    },
+    "NSMicrophoneUsageDescription": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catchline 需要使用麦克风听取周围的对话，并实时生成字幕和翻译。"
+          }
+        }
+      }
+    }
+  }
+}

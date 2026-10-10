@@ -19,24 +19,37 @@ struct PaywallSheet: View {
                 VStack(spacing: 20) {
                     header
                     if let yearly = store.yearly {
-                        planButton(yearly, title: "年付", detail: yearlyDetail(yearly), badge: "省 50%", prominent: true)
+                        planButton(yearly, title: String(localized: "Yearly"), detail: yearlyDetail(yearly), badge: String(localized: "Save 50%"), prominent: true)
                     }
                     if let monthly = store.monthly, !trialUsedUp {
                         planButton(
                             monthly,
-                            title: "月付",
-                            detail: store.trialEligible ? "前 7 天免费，之后 \(monthly.displayPrice)/月" : "\(monthly.displayPrice)/月",
-                            badge: store.trialEligible ? "7 天免费试用" : nil,
+                            title: String(localized: "Monthly"),
+                            detail: store.trialEligible ? String(localized: "7 days free, then \(monthly.displayPrice)/month") : String(localized: "\(monthly.displayPrice)/month"),
+                            badge: store.trialEligible ? String(localized: "7-day free trial") : nil,
                             prominent: store.yearly == nil
                         )
                     }
                     if store.products.isEmpty {
-                        ProgressView().padding()
+                        if store.productsLoaded {
+                            VStack(spacing: 10) {
+                                Text("Subscriptions aren’t available right now.")
+                                    .font(.subheadline)
+                                if let loadError = store.loadError {
+                                    Text(loadError).font(.caption).foregroundStyle(.secondary)
+                                }
+                                Button("Try Again") { Task { await store.load() } }
+                                    .buttonStyle(.bordered)
+                            }
+                            .padding()
+                        } else {
+                            ProgressView().padding()
+                        }
                     }
                     if let error {
                         Text(error).font(.footnote).foregroundStyle(.red)
                     }
-                    Button("恢复购买") { Task { await store.restore() } }
+                    Button("Restore Purchases") { Task { await store.restore() } }
                         .font(.footnote)
                     fineprint
                 }
@@ -44,7 +57,7 @@ struct PaywallSheet: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("关闭") { dismiss() }
+                    Button("Close") { dismiss() }
                 }
             }
         }
@@ -56,10 +69,10 @@ struct PaywallSheet: View {
     private var header: some View {
         VStack(spacing: 8) {
             Image(systemName: "captions.bubble.fill").font(.system(size: 44)).foregroundStyle(.tint)
-            Text(trialUsedUp ? "试用额度已用完" : "Catchline Pro").font(.title2.bold())
+            Text(trialUsedUp ? "You’ve used your trial hours" as LocalizedStringKey : "Catchline Pro").font(.title2.bold())
             Text(trialUsedUp
-                 ? "看来你真的很需要 Catchline。开通年付立即生效，马上继续使用。"
-                 : "电话、会议、面对面交谈，每个词都跟得上。")
+                 ? "Looks like Catchline is really helping. Go yearly and it starts right away, so you can keep going." as LocalizedStringKey
+                 : "Calls, meetings, conversations. Catch every word.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -100,19 +113,19 @@ struct PaywallSheet: View {
 
     private func yearlyDetail(_ yearly: Product) -> String {
         let perMonth = (yearly.price / 12).formatted(yearly.priceFormatStyle)
-        return "约 \(perMonth)/月，立即生效"
+        return String(localized: "About \(perMonth)/month, starts now")
     }
 
     private var fineprint: some View {
         VStack(spacing: 8) {
-            Text("订阅含每月 40 小时（合理使用，正常使用基本不会达到）。免费试用期内含 3 小时。订阅会自动续期，可随时在 设置 → Apple 账户 → 订阅 中取消，需在当期结束前至少 24 小时取消。")
+            Text("Subscriptions include 40 hours a month (fair use; normal use won’t reach it). The free trial includes 3 hours. Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period in Settings → Apple Account → Subscriptions.")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             HStack(spacing: 16) {
-                Button("使用条款") { openURL(AppConfig.termsURL) }
-                Button("隐私政策") { openURL(AppConfig.privacyURL) }
-                Button("合理使用政策") { openURL(AppConfig.fairUseURL) }
+                Button("Terms of Use") { openURL(AppConfig.termsURL) }
+                Button("Privacy Policy") { openURL(AppConfig.privacyURL) }
+                Button("Fair Use Policy") { openURL(AppConfig.fairUseURL) }
             }
             .font(.caption2)
         }

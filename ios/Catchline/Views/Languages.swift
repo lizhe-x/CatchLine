@@ -1,3 +1,5 @@
+import Foundation
+
 struct Language: Identifiable, Hashable {
     let code: String
     let label: String
@@ -15,6 +17,16 @@ struct Language: Identifiable, Hashable {
         .init(code: "ru", label: "Русский"),
         .init(code: "vi", label: "Tiếng Việt"),
     ]
+
+    /// Translate into the user's own language: their first preferred
+    /// language we support that isn't English, else Chinese.
+    static let defaultTarget: String = {
+        for identifier in Locale.preferredLanguages {
+            guard let code = Locale(identifier: identifier).language.languageCode?.identifier else { continue }
+            if code != "en", all.contains(where: { $0.code == code }) { return code }
+        }
+        return "zh"
+    }()
 }
 
 /// UserDefaults keys for per-device preferences.

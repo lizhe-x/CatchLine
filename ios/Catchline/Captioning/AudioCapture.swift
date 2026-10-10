@@ -78,7 +78,7 @@ nonisolated final class MicrophoneSource: AudioSource, @unchecked Sendable {
         let input = engine.inputNode
         let inputFormat = input.outputFormat(forBus: 0)
         guard inputFormat.sampleRate > 0, inputFormat.channelCount > 0 else {
-            throw NSError(domain: "Catchline", code: 1, userInfo: [NSLocalizedDescriptionKey: "没有可用的麦克风"])
+            throw NSError(domain: "Catchline", code: 1, userInfo: [NSLocalizedDescriptionKey: String(localized: "No microphone available")])
         }
         let converter = AVAudioConverter(from: inputFormat, to: StreamAudioFormat.pcm)
         lock.withLock { self.converter = converter }

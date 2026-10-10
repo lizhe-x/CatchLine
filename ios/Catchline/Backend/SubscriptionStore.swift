@@ -15,6 +15,9 @@ final class SubscriptionStore {
     /// Whether this Apple ID can still get the monthly plan's free trial.
     private(set) var trialEligible = false
     private(set) var purchasing = false
+    /// A product request has completed (successfully or not).
+    private(set) var productsLoaded = false
+    private(set) var loadError: String?
 
     private var updatesTask: Task<Void, Never>?
 
@@ -36,9 +39,13 @@ final class SubscriptionStore {
         do {
             products = try await Product.products(for: AppConfig.productIDs)
                 .sorted { $0.price > $1.price }
+            loadError = nil
+            print("[store] loaded \(products.count) products")
         } catch {
+            loadError = error.localizedDescription
             print("[store] products failed:", error)
         }
+        productsLoaded = true
         if let monthly { trialEligible = await monthly.subscription?.isEligibleForIntroOffer ?? false }
         await refreshEntitlement()
     }

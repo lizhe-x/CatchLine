@@ -28,9 +28,9 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .quotaExhausted: "今日额度已用完"
-        case .attestationUnsupported: "此设备不支持 App Attest"
-        case let .http(status, code): "服务器错误（\(status) \(code)）"
+        case .quotaExhausted: String(localized: "You’ve used up your allowance")
+        case .attestationUnsupported: String(localized: "This device doesn’t support App Attest")
+        case let .http(status, code): String(localized: "Server error (\(String(status)) \(code))")
         }
     }
 }
