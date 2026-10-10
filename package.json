@@ -1,0 +1,17 @@
+{
+  "name": "catchline",
+  "private": true,
+  "workspaces": [
+    "web",
+    "backend",
+    "infra"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w web",
+    "dev:lan": "npm run dev:lan -w web",
+    "build": "npm run build -w web",
+    "typecheck": "npm run typecheck -w backend && npm run typecheck -w infra && npm run build -w web",
+    "deploy": "npm run build -w web && npm run cdk -w infra -- deploy --all --profile catchline --require-approval never",
+    "destroy": "npm run cdk -w infra -- destroy --all --profile catchline --force"
+  }
+}

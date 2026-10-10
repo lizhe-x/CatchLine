@@ -1,0 +1,12 @@
+{
+  "app": "npx tsx bin/catchline.ts",
+  "context": {
+    "catchline:domainName": "catchline.deskfox.cn",
+    "catchline:sonioxKeyParameter": "/catchline/soniox-api-key",
+    "catchline:alarmEmail": "lizhe666@gmail.com",
+    "catchline:monthlyBudgetUsd": 5,
+    "catchline:cognitoDomainPrefix": "catchline-deskfox",
+    "catchline:iosUrlScheme": "com.deskfox.catchline",
+    "catchline:selfSignUp": false
+  }
+}
