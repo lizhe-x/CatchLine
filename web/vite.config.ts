@@ -47,7 +47,7 @@ function devSessionApi(longLivedKey: string | undefined): Plugin {
   let used = 0
   let lease: { issuedAt: number; seconds: number } | null = null
   const settle = () => {
-    if (lease) used += Math.min(lease.seconds, Math.ceil((Date.now() - lease.issuedAt) / 1000))
+    if (lease) used += Math.min(lease.seconds, Math.floor((Date.now() - lease.issuedAt) / 1000))
     lease = null
   }
   const plan = () => ({
@@ -70,7 +70,7 @@ function devSessionApi(longLivedKey: string | undefined): Plugin {
         if (req.method !== 'POST') return send(405, { error: 'method_not_allowed' })
         const route = req.url?.split('?')[0] ?? '/'
         if (route === '/status') {
-          const open = lease ? Math.min(lease.seconds, Math.ceil((Date.now() - lease.issuedAt) / 1000)) : 0
+          const open = lease ? Math.min(lease.seconds, Math.floor((Date.now() - lease.issuedAt) / 1000)) : 0
           return send(200, { plan: { ...plan(), usedSeconds: used + open, remainingSeconds: Math.max(0, quota - used - open) } })
         }
         if (route === '/end') {

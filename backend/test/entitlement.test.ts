@@ -27,9 +27,9 @@ test('trial vs paid from the transaction', () => {
   assert.equal((paid as { resetsAt: string }).resetsAt, '2026-11-01T00:00:00.000Z')
 })
 
-test('lease charge uses server time, capped at the lease', () => {
+test('lease charge: server time, per second rounded down, capped at the lease', () => {
   const lease = { bucket: 'b', issuedAt: 1_000_000, seconds: 600 }
-  assert.equal(leaseCharge(lease, 1_000_000 + 42_500), 43)
+  assert.equal(leaseCharge(lease, 1_000_000 + 42_900), 42)
   assert.equal(leaseCharge(lease, 1_000_000 + 3_600_000), 600)
   assert.equal(leaseCharge(lease, 999_000), 0)
   assert.equal(localDay(now, 'UTC').date, '2026-10-10')

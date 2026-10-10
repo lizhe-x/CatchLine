@@ -116,7 +116,10 @@ export class Store {
   }
 }
 
-/** Server-clock time a lease could have been used: never trusts the client. */
+/**
+ * Seconds to charge for a lease, by the server's clock (never the client's).
+ * Billed per second, rounded *down*: partial seconds are on us.
+ */
 export function leaseCharge(lease: Lease, now = Date.now()): number {
-  return Math.min(lease.seconds, Math.max(0, Math.ceil((now - lease.issuedAt) / 1000)))
+  return Math.min(lease.seconds, Math.max(0, Math.floor((now - lease.issuedAt) / 1000)))
 }
