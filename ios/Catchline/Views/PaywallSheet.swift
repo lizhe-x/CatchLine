@@ -22,8 +22,18 @@ struct PaywallSheet: View {
             ScrollView {
                 VStack(spacing: 20) {
                     header
-                    if let yearly = store.yearly {
-                        planButton(yearly, title: String(localized: "Yearly"), detail: yearlyDetail(yearly), badge: String(localized: "Save 50%"), prominent: true)
+                    if trialUsedUp {
+                        if let now = store.yearlyNow {
+                            planButton(now, title: String(localized: "Yearly – Start Now"), detail: String(localized: "\(now.displayPrice)/year, starts today"), badge: String(localized: "Save 50%"), prominent: true)
+                        }
+                    } else if let yearly = store.yearly {
+                        planButton(
+                            yearly,
+                            title: String(localized: "Yearly"),
+                            detail: store.trialEligible ? String(localized: "7 days free, then \(yearly.displayPrice)/year") : yearlyDetail(yearly),
+                            badge: String(localized: "Save 50%"),
+                            prominent: true
+                        )
                     }
                     if let monthly = store.monthly, !trialUsedUp {
                         planButton(
@@ -129,7 +139,7 @@ struct PaywallSheet: View {
 
     private func yearlyDetail(_ yearly: Product) -> String {
         let perMonth = (yearly.price / 12).formatted(yearly.priceFormatStyle)
-        return String(localized: "About \(perMonth)/month, starts now")
+        return String(localized: "About \(perMonth)/month, billed yearly")
     }
 
     private var fineprint: some View {

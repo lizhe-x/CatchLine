@@ -13,7 +13,8 @@
       "bundleId": "com.deskfox.catchline",
       "productIds": [
         "com.deskfox.catchline.monthly",
-        "com.deskfox.catchline.yearly"
+        "com.deskfox.catchline.yearly",
+        "com.deskfox.catchline.yearly.now"
       ],
       "allowDevelopmentAttestation": true,
       "freeDailySeconds": 180,

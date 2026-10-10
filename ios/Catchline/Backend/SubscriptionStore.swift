@@ -22,6 +22,7 @@ final class SubscriptionStore {
 
     var monthly: Product? { products.first { $0.id == AppConfig.monthlyProductID } }
     var yearly: Product? { products.first { $0.id == AppConfig.yearlyProductID } }
+    var yearlyNow: Product? { products.first { $0.id == AppConfig.yearlyNowProductID } }
     var isSubscribed: Bool { activeTransaction != nil }
 
     init() {

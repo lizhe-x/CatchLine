@@ -283,6 +283,100 @@
         }
       }
     },
+    "%@/year, starts today": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/سنة، يبدأ اليوم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/Jahr, ab heute"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/año, empieza hoy"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/an, dès aujourd’hui"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/साल, आज से शुरू"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/tahun, mulai hari ini"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/anno, da oggi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/年・今日から開始"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/년, 오늘 시작"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/ano, começa hoje"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/год, с сегодняшнего дня"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/yıl, bugün başlar"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/năm, bắt đầu hôm nay"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/年，今天开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/年，今天開始"
+          }
+        }
+      }
+    },
     "7 days free, then %@/month": {
       "localizations": {
         "ar": {
@@ -373,6 +467,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "前 7 天免費，之後 %@/月"
+          }
+        }
+      }
+    },
+    "7 days free, then %@/year": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 أيام مجانًا، ثم %@/سنة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 Tage gratis, danach %@/Jahr"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 días gratis, luego %@/año"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 jours gratuits, puis %@/an"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 दिन मुफ़्त, फिर %@/साल"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gratis 7 hari, lalu %@/tahun"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 giorni gratis, poi %@/anno"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7日間無料、その後 %@/年"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7일 무료, 이후 %@/년"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 dias grátis, depois %@/ano"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 дней бесплатно, затем %@/год"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "7 gün ücretsiz, sonra %@/yıl"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Miễn phí 7 ngày, sau đó %@/năm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前 7 天免费，之后 %@/年"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前 7 天免費，之後 %@/年"
           }
         }
       }
@@ -474,96 +662,96 @@
     "A+": {
       "shouldTranslate": false
     },
-    "About %@/month, starts now": {
+    "About %@/month, billed yearly": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "نحو %@/شهر، يبدأ الآن"
+            "value": "نحو %@/شهر، يُدفع سنويًا"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ca. %@/Monat, startet sofort"
+            "value": "Ca. %@/Monat, jährliche Abrechnung"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unos %@/mes, empieza ya"
+            "value": "Unos %@/mes, facturado anualmente"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Environ %@/mois, immédiat"
+            "value": "Environ %@/mois, facturé à l’année"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "लगभग %@/माह, अभी शुरू"
+            "value": "लगभग %@/माह, सालाना बिलिंग"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sekitar %@/bulan, mulai sekarang"
+            "value": "Sekitar %@/bulan, ditagih tahunan"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Circa %@/mese, subito attivo"
+            "value": "Circa %@/mese, fatturato annualmente"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "約 %@/月・今すぐ開始"
+            "value": "約 %@/月・年払い"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "월 약 %@, 바로 시작"
+            "value": "월 약 %@, 연간 결제"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cerca de %@/mês, começa já"
+            "value": "Cerca de %@/mês, cobrado anualmente"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Около %@/мес., сразу"
+            "value": "Около %@/мес., оплата за год"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ayda yaklaşık %@, hemen başlar"
+            "value": "Ayda yaklaşık %@, yıllık faturalandırılır"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khoảng %@/tháng, bắt đầu ngay"
+            "value": "Khoảng %@/tháng, thanh toán theo năm"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "约 %@/月，立即生效"
+            "value": "约 %@/月，按年计费"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "約 %@/月，立即生效"
+            "value": "約 %@/月，按年計費"
           }
         }
       }
@@ -7059,6 +7247,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "年繳"
+          }
+        }
+      }
+    },
+    "Yearly – Start Now": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنوي – ابدأ الآن"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jährlich – sofort starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anual: empieza ya"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuel – dès maintenant"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सालाना – अभी शुरू करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahunan – Mulai Sekarang"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuale – inizia ora"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年額 – 今すぐ開始"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "연간 – 지금 시작"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anual – começar agora"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Год – начать сейчас"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yıllık – Hemen Başla"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hằng năm – Bắt đầu ngay"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年付 · 立即开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "年繳 · 立即開始"
           }
         }
       }

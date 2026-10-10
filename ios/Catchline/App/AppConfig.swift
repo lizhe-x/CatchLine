@@ -4,11 +4,14 @@ import Foundation
 nonisolated enum AppConfig {
     static let apiBaseURL = URL(string: "https://catchline.deskfox.cn")!
 
-    /// Subscription group "Catchline Pro". Monthly carries the 7-day free trial;
-    /// yearly ranks higher, so buying it during the trial upgrades immediately.
-    static let monthlyProductID = "com.deskfox.catchline.monthly"
+    /// Subscription group "Catchline Pro", highest level first:
+    /// 1. yearly.now — no trial, only offered once trial hours run out; as the
+    ///    top level, buying it during a trial upgrades (and charges) immediately.
+    /// 2. yearly, 3. monthly — both with a 7-day free trial (one per Apple ID per group).
+    static let yearlyNowProductID = "com.deskfox.catchline.yearly.now"
     static let yearlyProductID = "com.deskfox.catchline.yearly"
-    static var productIDs: [String] { [yearlyProductID, monthlyProductID] }
+    static let monthlyProductID = "com.deskfox.catchline.monthly"
+    static var productIDs: [String] { [yearlyNowProductID, yearlyProductID, monthlyProductID] }
 
     static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     static let privacyURL = URL(string: "https://catchline.deskfox.cn/privacy.html")!
