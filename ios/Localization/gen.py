@@ -21,6 +21,6 @@ root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'Catchline
 info = json.load(open(root + 'InfoPlist.xcstrings'))  # mic prompt: unchanged
 unit = lambda v: {"stringUnit": {"state": "translated", "value": v}}
 strings = {k: {"localizations": {l: unit(T[l][i]) for l in sorted(T)}} for i, k in enumerate(K)}
-for k in ['A+', 'A−', 'Catchline Pro', 'Mark Johnson, Acme Corp, W-2']: strings[k] = {"shouldTranslate": False}
+for k in ['A+', 'A−', 'CatchLine Pro', 'Mark Johnson, Acme Corp, W-2']: strings[k] = {"shouldTranslate": False}
 json.dump({"sourceLanguage": "en", "strings": dict(sorted(strings.items())), "version": "1.0"}, open(root + 'Localizable.xcstrings', 'w'), ensure_ascii=False, indent=2)
 print(f"OK: {len(T)} languages x {len(K)} strings")

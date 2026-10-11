@@ -16,7 +16,7 @@ settings:
     SWIFT_EMIT_LOC_STRINGS: YES
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "2"
 targets:
   Catchline:
     type: application
@@ -27,7 +27,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.deskfox.catchline
         TARGETED_DEVICE_FAMILY: "1"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        INFOPLIST_KEY_CFBundleDisplayName: Catchline
+        INFOPLIST_KEY_CFBundleDisplayName: CatchLine
       configs:
         Debug:
           CODE_SIGN_ENTITLEMENTS: Catchline/Catchline.Debug.entitlements
@@ -36,10 +36,10 @@ targets:
     info:
       path: Catchline/Info.plist
       properties:
-        CFBundleDisplayName: Catchline
+        CFBundleDisplayName: CatchLine
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        NSMicrophoneUsageDescription: Catchline uses the microphone to hear the conversation around you and show live captions and translations.
+        NSMicrophoneUsageDescription: CatchLine uses the microphone to hear the conversation around you and show live captions and translations.
         UIBackgroundModes: [audio]
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]

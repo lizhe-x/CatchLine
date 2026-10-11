@@ -1,4 +1,4 @@
-# Catchline
+# CatchLine
 
 **Catch every word.** 实时双语字幕：麦克风收音 → Soniox 实时识别 + 翻译 → 浏览器显示。完整需求见 [SPEC.md](SPEC.md)。
 

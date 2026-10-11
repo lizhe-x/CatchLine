@@ -1229,57 +1229,57 @@
         }
       }
     },
-    "Catchline Pro": {
+    "CatchLine Pro": {
       "shouldTranslate": false
     },
-    "Catchline doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.": {
+    "CatchLine doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لا يحتاج Catchline إلى حساب. يُستخدم هذا المعرّف العشوائي فقط لتسجيل وقت الاستخدام؛ أرسله إلينا إذا أردت حذف سجلاتك."
+            "value": "لا يحتاج CatchLine إلى حساب. يُستخدم هذا المعرّف العشوائي فقط لتسجيل وقت الاستخدام؛ أرسله إلينا إذا أردت حذف سجلاتك."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline braucht kein Konto. Diese zufällige ID dient nur zur Erfassung der Nutzungszeit. Schick sie uns, wenn deine Daten gelöscht werden sollen."
+            "value": "CatchLine braucht kein Konto. Diese zufällige ID dient nur zur Erfassung der Nutzungszeit. Schick sie uns, wenn deine Daten gelöscht werden sollen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline no necesita cuenta. Este ID aleatorio solo sirve para registrar el tiempo de uso; envíanoslo si quieres que borremos tus datos."
+            "value": "CatchLine no necesita cuenta. Este ID aleatorio solo sirve para registrar el tiempo de uso; envíanoslo si quieres que borremos tus datos."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline ne nécessite pas de compte. Cet identifiant aléatoire sert uniquement à mesurer le temps d’utilisation ; envoyez-le-nous si vous souhaitez que vos données soient supprimées."
+            "value": "CatchLine ne nécessite pas de compte. Cet identifiant aléatoire sert uniquement à mesurer le temps d’utilisation ; envoyez-le-nous si vous souhaitez que vos données soient supprimées."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline के लिए खाते की ज़रूरत नहीं है। यह रैंडम ID सिर्फ़ इस्तेमाल का समय दर्ज करने के लिए है; अपना रिकॉर्ड हटवाना हो तो इसे हमें भेजें।"
+            "value": "CatchLine के लिए खाते की ज़रूरत नहीं है। यह रैंडम ID सिर्फ़ इस्तेमाल का समय दर्ज करने के लिए है; अपना रिकॉर्ड हटवाना हो तो इसे हमें भेजें।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline tidak memerlukan akun. ID acak ini hanya untuk mencatat waktu pemakaian; kirimkan ke kami jika ingin catatanmu dihapus."
+            "value": "CatchLine tidak memerlukan akun. ID acak ini hanya untuk mencatat waktu pemakaian; kirimkan ke kami jika ingin catatanmu dihapus."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline non richiede un account. Questo ID casuale serve solo a registrare il tempo di utilizzo; inviacelo se vuoi che i tuoi dati vengano eliminati."
+            "value": "CatchLine non richiede un account. Questo ID casuale serve solo a registrare il tempo di utilizzo; inviacelo se vuoi che i tuoi dati vengano eliminati."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline はアカウント不要です。このランダムな ID は利用時間の記録にのみ使います。データの削除をご希望の場合はお知らせください。"
+            "value": "CatchLine はアカウント不要です。このランダムな ID は利用時間の記録にのみ使います。データの削除をご希望の場合はお知らせください。"
           }
         },
         "ko": {
@@ -1291,37 +1291,37 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "O Catchline não precisa de conta. Este ID aleatório serve só para registrar o tempo de uso; envie para nós se quiser que seus dados sejam apagados."
+            "value": "O CatchLine não precisa de conta. Este ID aleatório serve só para registrar o tempo de uso; envie para nós se quiser que seus dados sejam apagados."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline не требует аккаунта. Этот случайный ID нужен только для учёта времени использования; пришлите его нам, если хотите удалить свои данные."
+            "value": "CatchLine не требует аккаунта. Этот случайный ID нужен только для учёта времени использования; пришлите его нам, если хотите удалить свои данные."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline hesap gerektirmez. Bu rastgele kimlik yalnızca kullanım süresini kaydetmek içindir; kayıtlarınızın silinmesini istiyorsanız bize gönderin."
+            "value": "CatchLine hesap gerektirmez. Bu rastgele kimlik yalnızca kullanım süresini kaydetmek içindir; kayıtlarınızın silinmesini istiyorsanız bize gönderin."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline không cần tài khoản. ID ngẫu nhiên này chỉ dùng để ghi lại thời gian sử dụng; hãy gửi cho chúng tôi nếu bạn muốn xóa dữ liệu."
+            "value": "CatchLine không cần tài khoản. ID ngẫu nhiên này chỉ dùng để ghi lại thời gian sử dụng; hãy gửi cho chúng tôi nếu bạn muốn xóa dữ liệu."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline 不需要注册。这个随机 ID 只用来记录使用时长，需要删除记录时提供给我们即可。"
+            "value": "CatchLine 不需要注册。这个随机 ID 只用来记录使用时长，需要删除记录时提供给我们即可。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline 不需要註冊。這個隨機 ID 只用來記錄使用時長，需要刪除紀錄時提供給我們即可。"
+            "value": "CatchLine 不需要註冊。這個隨機 ID 只用來記錄使用時長，需要刪除紀錄時提供給我們即可。"
           }
         }
       }
@@ -3582,54 +3582,54 @@
         }
       }
     },
-    "Looks like Catchline is really helping. Go yearly and it starts right away, so you can keep going.": {
+    "Looks like CatchLine is really helping. Go yearly and it starts right away, so you can keep going.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يبدو أن Catchline يساعدك كثيرًا. انتقل إلى الاشتراك السنوي ليبدأ فورًا وتواصل الاستخدام."
+            "value": "يبدو أن CatchLine يساعدك كثيرًا. انتقل إلى الاشتراك السنوي ليبدأ فورًا وتواصل الاستخدام."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline scheint dir wirklich zu helfen. Wechsle zum Jahresabo – es startet sofort, und du kannst direkt weitermachen."
+            "value": "CatchLine scheint dir wirklich zu helfen. Wechsle zum Jahresabo – es startet sofort, und du kannst direkt weitermachen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Parece que Catchline te está ayudando mucho. Pásate al plan anual: empieza ya y puedes seguir sin pausa."
+            "value": "Parece que CatchLine te está ayudando mucho. Pásate al plan anual: empieza ya y puedes seguir sin pausa."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline semble vraiment vous aider. Passez à l’abonnement annuel : il démarre tout de suite, sans interruption."
+            "value": "CatchLine semble vraiment vous aider. Passez à l’abonnement annuel : il démarre tout de suite, sans interruption."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "लगता है Catchline आपकी बहुत मदद कर रहा है। सालाना प्लान लें — यह तुरंत शुरू होता है और आप बिना रुके जारी रख सकते हैं।"
+            "value": "लगता है CatchLine आपकी बहुत मदद कर रहा है। सालाना प्लान लें — यह तुरंत शुरू होता है और आप बिना रुके जारी रख सकते हैं।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sepertinya Catchline sangat membantumu. Beralih ke paket tahunan, langsung aktif dan kamu bisa lanjut."
+            "value": "Sepertinya CatchLine sangat membantumu. Beralih ke paket tahunan, langsung aktif dan kamu bisa lanjut."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sembra che Catchline ti sia davvero utile. Passa al piano annuale: parte subito e puoi continuare."
+            "value": "Sembra che CatchLine ti sia davvero utile. Passa al piano annuale: parte subito e puoi continuare."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline がとても役に立っているようです。年額プランなら今すぐ始まり、そのまま使い続けられます。"
+            "value": "CatchLine がとても役に立っているようです。年額プランなら今すぐ始まり、そのまま使い続けられます。"
           }
         },
         "ko": {
@@ -3641,37 +3641,37 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Parece que o Catchline está ajudando muito. Mude para o plano anual: começa agora e você continua sem parar."
+            "value": "Parece que o CatchLine está ajudando muito. Mude para o plano anual: começa agora e você continua sem parar."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Похоже, Catchline вам действительно помогает. Перейдите на годовой план: он начнётся сразу, и можно продолжать."
+            "value": "Похоже, CatchLine вам действительно помогает. Перейдите на годовой план: он начнётся сразу, и можно продолжать."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Görünüşe göre Catchline size çok yardımcı oluyor. Yıllık plana geçin; hemen başlar ve devam edebilirsiniz."
+            "value": "Görünüşe göre CatchLine size çok yardımcı oluyor. Yıllık plana geçin; hemen başlar ve devam edebilirsiniz."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Có vẻ Catchline đang giúp bạn rất nhiều. Chuyển sang gói năm để bắt đầu ngay và tiếp tục sử dụng."
+            "value": "Có vẻ CatchLine đang giúp bạn rất nhiều. Chuyển sang gói năm để bắt đầu ngay và tiếp tục sử dụng."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "看来你真的很需要 Catchline。开通年付立即生效，马上继续使用。"
+            "value": "看来你真的很需要 CatchLine。开通年付立即生效，马上继续使用。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "看來你真的很需要 Catchline。改用年繳立即生效，馬上繼續使用。"
+            "value": "看來你真的很需要 CatchLine。改用年繳立即生效，馬上繼續使用。"
           }
         }
       }
@@ -3773,54 +3773,54 @@
     "Mark Johnson, Acme Corp, W-2": {
       "shouldTranslate": false
     },
-    "Microphone access is off. Turn it on in Settings → Catchline.": {
+    "Microphone access is off. Turn it on in Settings → CatchLine.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الوصول إلى الميكروفون متوقف. فعّله من الإعدادات ← Catchline."
+            "value": "الوصول إلى الميكروفون متوقف. فعّله من الإعدادات ← CatchLine."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mikrofonzugriff ist aus. Aktiviere ihn unter Einstellungen → Catchline."
+            "value": "Mikrofonzugriff ist aus. Aktiviere ihn unter Einstellungen → CatchLine."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El acceso al micrófono está desactivado. Actívalo en Ajustes → Catchline."
+            "value": "El acceso al micrófono está desactivado. Actívalo en Ajustes → CatchLine."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’accès au micro est désactivé. Activez-le dans Réglages → Catchline."
+            "value": "L’accès au micro est désactivé. Activez-le dans Réglages → CatchLine."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "माइक्रोफ़ोन एक्सेस बंद है। सेटिंग्स → Catchline में चालू करें।"
+            "value": "माइक्रोफ़ोन एक्सेस बंद है। सेटिंग्स → CatchLine में चालू करें।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Akses mikrofon nonaktif. Aktifkan di Pengaturan → Catchline."
+            "value": "Akses mikrofon nonaktif. Aktifkan di Pengaturan → CatchLine."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’accesso al microfono è disattivato. Attivalo in Impostazioni → Catchline."
+            "value": "L’accesso al microfono è disattivato. Attivalo in Impostazioni → CatchLine."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "マイクへのアクセスがオフです。設定 → Catchline でオンにしてください。"
+            "value": "マイクへのアクセスがオフです。設定 → CatchLine でオンにしてください。"
           }
         },
         "ko": {
@@ -3832,37 +3832,37 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "O acesso ao microfone está desativado. Ative em Ajustes → Catchline."
+            "value": "O acesso ao microfone está desativado. Ative em Ajustes → CatchLine."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Доступ к микрофону выключен. Включите его в Настройках → Catchline."
+            "value": "Доступ к микрофону выключен. Включите его в Настройках → CatchLine."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mikrofon erişimi kapalı. Ayarlar → Catchline'dan açın."
+            "value": "Mikrofon erişimi kapalı. Ayarlar → CatchLine'dan açın."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quyền truy cập micrô đang tắt. Hãy bật trong Cài đặt → Catchline."
+            "value": "Quyền truy cập micrô đang tắt. Hãy bật trong Cài đặt → CatchLine."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "没有麦克风权限。请到 设置 → Catchline 打开麦克风。"
+            "value": "没有麦克风权限。请到 设置 → CatchLine 打开麦克风。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "沒有麥克風權限。請到 設定 → Catchline 開啟麥克風。"
+            "value": "沒有麥克風權限。請到 設定 → CatchLine 開啟麥克風。"
           }
         }
       }
@@ -6499,54 +6499,54 @@
         }
       }
     },
-    "This device doesn’t support App Attest, which Catchline requires": {
+    "This device doesn’t support App Attest, which CatchLine requires": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "هذا الجهاز لا يدعم App Attest الذي يتطلبه Catchline"
+            "value": "هذا الجهاز لا يدعم App Attest الذي يتطلبه CatchLine"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dieses Gerät unterstützt App Attest nicht, das Catchline benötigt"
+            "value": "Dieses Gerät unterstützt App Attest nicht, das CatchLine benötigt"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Este dispositivo no es compatible con App Attest, que Catchline necesita"
+            "value": "Este dispositivo no es compatible con App Attest, que CatchLine necesita"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cet appareil ne prend pas en charge App Attest, nécessaire à Catchline"
+            "value": "Cet appareil ne prend pas en charge App Attest, nécessaire à CatchLine"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "यह डिवाइस App Attest सपोर्ट नहीं करता, जो Catchline के लिए ज़रूरी है"
+            "value": "यह डिवाइस App Attest सपोर्ट नहीं करता, जो CatchLine के लिए ज़रूरी है"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Perangkat ini tidak mendukung App Attest yang diperlukan Catchline"
+            "value": "Perangkat ini tidak mendukung App Attest yang diperlukan CatchLine"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Questo dispositivo non supporta App Attest, necessario per Catchline"
+            "value": "Questo dispositivo non supporta App Attest, necessario per CatchLine"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "このデバイスは Catchline に必要な App Attest に対応していません"
+            "value": "このデバイスは CatchLine に必要な App Attest に対応していません"
           }
         },
         "ko": {
@@ -6558,25 +6558,25 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Este dispositivo não é compatível com o App Attest, exigido pelo Catchline"
+            "value": "Este dispositivo não é compatível com o App Attest, exigido pelo CatchLine"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Это устройство не поддерживает App Attest, необходимый для Catchline"
+            "value": "Это устройство не поддерживает App Attest, необходимый для CatchLine"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu cihaz Catchline için gereken App Attest'i desteklemiyor"
+            "value": "Bu cihaz CatchLine için gereken App Attest'i desteklemiyor"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thiết bị này không hỗ trợ App Attest mà Catchline cần"
+            "value": "Thiết bị này không hỗ trợ App Attest mà CatchLine cần"
           }
         },
         "zh-Hans": {

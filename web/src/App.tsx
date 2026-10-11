@@ -114,7 +114,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="bar">
-        <div className="brand">Catchline</div>
+        <div className="brand">CatchLine</div>
         <div className={`status status-${status}`} title={message}>
           <span className="dot" />
           {STATUS_LABEL[status]}

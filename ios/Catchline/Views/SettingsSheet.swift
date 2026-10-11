@@ -70,7 +70,7 @@ struct SettingsSheet: View {
                             .textSelection(.enabled)
                     }
                 } footer: {
-                    Text("Catchline doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.")
+                    Text("CatchLine doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.")
                 }
             }
             .navigationTitle("Settings")

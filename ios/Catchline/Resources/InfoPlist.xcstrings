@@ -10,49 +10,49 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يستخدم Catchline الميكروفون لسماع المحادثة من حولك وعرض الترجمة النصية والترجمة مباشرةً."
+            "value": "يستخدم CatchLine الميكروفون لسماع المحادثة من حولك وعرض الترجمة النصية والترجمة مباشرةً."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline nutzt das Mikrofon, um Gespräche in deiner Nähe zu hören und Live-Untertitel und Übersetzungen anzuzeigen."
+            "value": "CatchLine nutzt das Mikrofon, um Gespräche in deiner Nähe zu hören und Live-Untertitel und Übersetzungen anzuzeigen."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline usa el micrófono para escuchar la conversación a tu alrededor y mostrar subtítulos y traducciones en vivo."
+            "value": "CatchLine usa el micrófono para escuchar la conversación a tu alrededor y mostrar subtítulos y traducciones en vivo."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline utilise le micro pour entendre la conversation autour de vous et afficher sous-titres et traductions en direct."
+            "value": "CatchLine utilise le micro pour entendre la conversation autour de vous et afficher sous-titres et traductions en direct."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline आपके आसपास की बातचीत सुनने और लाइव कैप्शन व अनुवाद दिखाने के लिए माइक्रोफ़ोन का उपयोग करता है।"
+            "value": "CatchLine आपके आसपास की बातचीत सुनने और लाइव कैप्शन व अनुवाद दिखाने के लिए माइक्रोफ़ोन का उपयोग करता है।"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline memakai mikrofon untuk mendengar percakapan di sekitarmu dan menampilkan teks serta terjemahan langsung."
+            "value": "CatchLine memakai mikrofon untuk mendengar percakapan di sekitarmu dan menampilkan teks serta terjemahan langsung."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline usa il microfono per ascoltare la conversazione intorno a te e mostrare sottotitoli e traduzioni dal vivo."
+            "value": "CatchLine usa il microfono per ascoltare la conversazione intorno a te e mostrare sottotitoli e traduzioni dal vivo."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline はマイクを使って周囲の会話を聞き取り、リアルタイムで字幕と翻訳を表示します。"
+            "value": "CatchLine はマイクを使って周囲の会話を聞き取り、リアルタイムで字幕と翻訳を表示します。"
           }
         },
         "ko": {
@@ -64,37 +64,37 @@
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "O Catchline usa o microfone para ouvir a conversa ao seu redor e mostrar legendas e traduções ao vivo."
+            "value": "O CatchLine usa o microfone para ouvir a conversa ao seu redor e mostrar legendas e traduções ao vivo."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline использует микрофон, чтобы слышать разговор рядом с вами и показывать субтитры и перевод в реальном времени."
+            "value": "CatchLine использует микрофон, чтобы слышать разговор рядом с вами и показывать субтитры и перевод в реальном времени."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline, çevrenizdeki konuşmayı duymak ve canlı altyazı ile çeviri göstermek için mikrofonu kullanır."
+            "value": "CatchLine, çevrenizdeki konuşmayı duymak ve canlı altyazı ile çeviri göstermek için mikrofonu kullanır."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline dùng micrô để nghe cuộc trò chuyện xung quanh bạn và hiển thị phụ đề cùng bản dịch trực tiếp."
+            "value": "CatchLine dùng micrô để nghe cuộc trò chuyện xung quanh bạn và hiển thị phụ đề cùng bản dịch trực tiếp."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline 需要使用麦克风听取周围的对话，并实时生成字幕和翻译。"
+            "value": "CatchLine 需要使用麦克风听取周围的对话，并实时生成字幕和翻译。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "Catchline 需要使用麥克風聆聽周圍的對話，並即時產生字幕和翻譯。"
+            "value": "CatchLine 需要使用麥克風聆聽周圍的對話，並即時產生字幕和翻譯。"
           }
         }
       }

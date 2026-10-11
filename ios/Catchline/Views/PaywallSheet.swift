@@ -91,9 +91,9 @@ struct PaywallSheet: View {
     private var header: some View {
         VStack(spacing: 8) {
             Image(systemName: "captions.bubble.fill").font(.system(size: 44)).foregroundStyle(.tint)
-            Text(trialUsedUp ? "You’ve used your trial hours" as LocalizedStringKey : "Catchline Pro").font(.title2.bold())
+            Text(trialUsedUp ? "You’ve used your trial hours" as LocalizedStringKey : "CatchLine Pro").font(.title2.bold())
             Text(trialUsedUp
-                 ? "Looks like Catchline is really helping. Go yearly and it starts right away, so you can keep going." as LocalizedStringKey
+                 ? "Looks like CatchLine is really helping. Go yearly and it starts right away, so you can keep going." as LocalizedStringKey
                  : "Calls, meetings, conversations. Catch every word.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)

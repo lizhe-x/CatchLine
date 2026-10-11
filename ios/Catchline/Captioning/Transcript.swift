@@ -119,7 +119,7 @@ final class Transcript {
 
 extension Transcript {
     func exportText(startedAt: Date, sourceLang: String, targetLang: String) -> String {
-        let header = "Catchline transcript — \(startedAt.formatted(.dateTime.year().month(.twoDigits).day(.twoDigits).hour(.twoDigits(amPM: .omitted)).minute(.twoDigits))) (\(sourceLang) → \(targetLang))"
+        let header = "CatchLine transcript — \(startedAt.formatted(.dateTime.year().month(.twoDigits).day(.twoDigits).hour(.twoDigits(amPM: .omitted)).minute(.twoDigits))) (\(sourceLang) → \(targetLang))"
         let body = rows
             .filter { !$0.source.isEmpty || !$0.target.isEmpty }
             .map { row -> String in

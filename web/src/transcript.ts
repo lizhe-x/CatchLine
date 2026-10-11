@@ -145,7 +145,7 @@ export function exportText(
 ): string {
   const start = new Date(meta.startedAt)
   const header =
-    `Catchline transcript — ${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())} ` +
+    `CatchLine transcript — ${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())} ` +
     `${pad(start.getHours())}:${pad(start.getMinutes())} (${meta.sourceLang} → ${meta.targetLang})`
   const body = rows
     .filter((row) => row.source || row.target)

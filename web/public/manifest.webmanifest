@@ -1,6 +1,6 @@
 {
-  "name": "Catchline: Live Call Captions",
-  "short_name": "Catchline",
+  "name": "CatchLine: Live Call Captions",
+  "short_name": "CatchLine",
   "description": "Catch every word. Live call captions with translation.",
   "start_url": "/",
   "scope": "/",

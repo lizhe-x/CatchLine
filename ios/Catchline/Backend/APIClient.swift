@@ -35,7 +35,7 @@ enum APIError: LocalizedError {
     }
 }
 
-/// Talks to the Catchline backend. Every metered call is signed with an App
+/// Talks to the CatchLine backend. Every metered call is signed with an App
 /// Attest assertion over the exact request body, so the server knows it came
 /// from our genuine app on a real device — no account needed.
 final class APIClient {

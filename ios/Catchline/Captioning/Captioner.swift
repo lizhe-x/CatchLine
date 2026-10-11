@@ -100,7 +100,7 @@ final class Captioner {
         guard !wantRunning else { return }
         guard await MicrophonePermission.request() else {
             status = .error
-            message = String(localized: "Microphone access is off. Turn it on in Settings → Catchline.")
+            message = String(localized: "Microphone access is off. Turn it on in Settings → CatchLine.")
             return
         }
 
@@ -223,7 +223,7 @@ final class Captioner {
                 fail(.quotaExhausted, plan?.kind == .free ? String(localized: "You’ve used today’s free minutes") : String(localized: "You’ve used this period’s hours"))
                 return
             } catch APIError.attestationUnsupported {
-                fail(.error, String(localized: "This device doesn’t support App Attest, which Catchline requires"))
+                fail(.error, String(localized: "This device doesn’t support App Attest, which CatchLine requires"))
                 return
             } catch let error as SonioxServerError where error.code == 400 || error.code == 402 {
                 // Bad config or Soniox balance/budget exhausted: retrying won't help.
