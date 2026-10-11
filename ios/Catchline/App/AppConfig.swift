@@ -31,10 +31,13 @@ nonisolated enum AppConfig {
     static var audioFilePath: String? { UserDefaults.standard.string(forKey: "CatchlineAudioFile") }
     /// Launch with `-CatchlineAutoStart YES` to start captioning on launch (UI-free tests).
     static var autoStart: Bool { UserDefaults.standard.bool(forKey: "CatchlineAutoStart") }
+    /// Launch with `-CatchlineShowSettings YES` to open Settings (screenshots).
+    static var showSettings: Bool { UserDefaults.standard.bool(forKey: "CatchlineShowSettings") }
     #else
     static let useLocalMock = false
     static let audioFilePath: String? = nil
     static let autoStart = false
+    static let showSettings = false
     #endif
 
     static var apiBase: URL {

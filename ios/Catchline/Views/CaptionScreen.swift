@@ -32,6 +32,7 @@ struct CaptionScreen: View {
         }
         .task {
             if AppConfig.autoStart && captioner.status == .idle { start() }
+            if AppConfig.showSettings { showSettings = true }
         }
         .sheet(isPresented: $showSettings) {
             SettingsSheet(showPaywall: $showPaywall)
