@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 /// A language Soniox can recognize and translate into.
 struct Language: Identifiable, Hashable {
@@ -26,15 +27,48 @@ struct Language: Identifiable, Hashable {
         sonioxCodes.map(Language.init(code:)).sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
-    /// Translate into the user's own language: their first preferred
-    /// language Soniox supports that isn't English, else Chinese.
-    static let defaultTarget: String = {
-        for identifier in Locale.preferredLanguages {
-            guard let code = Locale(identifier: identifier).language.languageCode?.identifier else { continue }
-            if code != "en", sonioxCodes.contains(code) { return code }
+    /// `Prefs.sourceLang` value for "detect automatically".
+    static let auto = "auto"
+
+    /// Soniox code for an iOS language identifier ("zh-Hant-TW" → "zh",
+    /// "nb-NO" → "no"), or nil if Soniox doesn't support it.
+    static func sonioxCode(for identifier: String) -> String? {
+        guard var code = Locale(identifier: identifier).language.languageCode?.identifier else { return nil }
+        switch code {
+        case "nb", "nn": code = "no"
+        case "fil": code = "tl"
+        case "iw": code = "he"
+        case "in": code = "id"
+        default: break
         }
-        return "zh"
-    }()
+        return sonioxCodes.contains(code) ? code : nil
+    }
+
+    /// Translate into the phone's language; English if Soniox doesn't have it.
+    static var systemTarget: String {
+        Locale.preferredLanguages.first.flatMap(sonioxCode(for:)) ?? "en"
+    }
+
+    /// Languages this user most likely hears, best first: English (most
+    /// users live or work in it), the phone's other languages, keyboards,
+    /// and the region's language. Never includes `target`.
+    @MainActor
+    static func likelySources(target: String) -> [String] {
+        var ids = ["en"] + Locale.preferredLanguages
+        ids += UITextInputMode.activeInputModes.compactMap(\.primaryLanguage)
+        if let region = Locale.current.region?.identifier {
+            ids.append(Locale.Language(identifier: "und-\(region)").maximalIdentifier)
+        }
+        var seen: Set<String> = [target]
+        return ids.compactMap(sonioxCode(for:)).filter { seen.insert($0).inserted }
+    }
+
+    /// Hints for automatic detection: bias toward the languages around this
+    /// user (and the target, which they speak) without excluding any other.
+    @MainActor
+    static func autoHints(target: String) -> [String] {
+        Array(([target] + likelySources(target: target)).prefix(4))
+    }
 }
 
 /// UserDefaults keys for per-device preferences.
@@ -44,4 +78,8 @@ enum Prefs {
     static let fontScale = "fontScale"
     static let terms = "terms"
     static let background = "background"
+    /// Set once the first-launch language screen is done.
+    static let onboarded = "onboarded"
+    /// The "mostly Spanish detected — set it?" tip was answered; don't ask again.
+    static let sourceTipAnswered = "sourceTipAnswered"
 }

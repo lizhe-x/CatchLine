@@ -249,9 +249,17 @@ button:disabled {
   gap: 6px;
 }
 
-.lang-row .arrow {
-  padding-bottom: 10px;
-  color: var(--muted);
+.lang-row label {
+  min-width: 0;
+}
+
+.lang-row .swap {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+
+.lang-row .swap:disabled {
+  opacity: 0.35;
 }
 
 .field {
@@ -295,6 +303,22 @@ textarea {
   font-size: 14px;
   background: var(--surface);
   border: 1px solid var(--line);
+}
+
+.banner.tip p {
+  margin: 0 0 10px;
+}
+
+.tip-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tip-actions button.small {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 14px;
+  font-size: 14px;
 }
 
 .banner-error {

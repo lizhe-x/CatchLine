@@ -21,13 +21,17 @@ nonisolated struct SonioxConfig: Encodable, Sendable {
     let numChannels = 1
     let languageHints: [String]
     let enableEndpointDetection = true
-    let translation: Translation
+    /// Tags each token with its language (for the "set as listening language" tip).
+    let enableLanguageIdentification = true
+    /// nil = captions only (listening and target language are the same).
+    let translation: Translation?
     let context: Context?
 
     enum CodingKeys: String, CodingKey {
         case apiKey = "api_key", model, audioFormat = "audio_format", sampleRate = "sample_rate"
         case numChannels = "num_channels", languageHints = "language_hints"
-        case enableEndpointDetection = "enable_endpoint_detection", translation, context
+        case enableEndpointDetection = "enable_endpoint_detection"
+        case enableLanguageIdentification = "enable_language_identification", translation, context
     }
 }
 

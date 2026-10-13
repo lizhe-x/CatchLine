@@ -8,6 +8,7 @@ import {
   type TranscriptionContext,
 } from '@soniox/client'
 import { getAccessToken } from './auth'
+import { AUTO, autoHints } from './settings'
 
 // Current real-time model per GET https://api.soniox.com/v1/models (2026-10).
 // Bump here when Soniox ships a newer one.
@@ -23,6 +24,7 @@ export type CaptionerStatus =
   | 'error'
 
 export interface SessionConfig {
+  /** A Soniox code, or AUTO. */
   sourceLang: string
   targetLang: string
   context?: TranscriptionContext
@@ -131,9 +133,13 @@ export class Captioner {
     this.events.onStatus(this.failures > 0 ? 'reconnecting' : 'starting')
     const recording = this.client.realtime.record({
       model: MODEL,
-      language_hints: [config.sourceLang],
+      language_hints: config.sourceLang === AUTO ? autoHints(config.targetLang) : [config.sourceLang],
       enable_endpoint_detection: true,
-      translation: { type: 'one_way', target_language: config.targetLang },
+      // Tags tokens with their language (for the "set as listening language" tip).
+      enable_language_identification: true,
+      // Same language on both sides: captions only.
+      translation:
+        config.sourceLang === config.targetLang ? undefined : { type: 'one_way', target_language: config.targetLang },
       context: config.context,
       auto_reconnect: true,
       max_reconnect_attempts: 4,

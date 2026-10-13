@@ -3,6 +3,7 @@ import Observation
 import UIKit
 
 struct CaptionSettings {
+    /// A Soniox code, or `Language.auto`.
     var sourceLang: String
     var targetLang: String
     /// Names, companies, jargon — comma or newline separated.
@@ -21,8 +22,8 @@ struct CaptionSettings {
             : SonioxConfig.Context(terms: termList.isEmpty ? nil : termList, text: text.isEmpty ? nil : text)
         return SonioxConfig(
             model: AppConfig.sonioxModel,
-            languageHints: [sourceLang],
-            translation: .init(targetLanguage: targetLang),
+            languageHints: sourceLang == Language.auto ? Language.autoHints(target: targetLang) : [sourceLang],
+            translation: sourceLang == targetLang ? nil : .init(targetLanguage: targetLang),
             context: context
         )
     }

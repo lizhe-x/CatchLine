@@ -5,6 +5,7 @@
 - `keys.py`: English source strings, in order (must match the keys Xcode extracts from the Swift code)
 - `t1.py`–`t3.py`: translations per language, same order as `keys.py`
 - `t4.py`: later additions (index 5 replacement + appended keys)
+- `t5.py`: language selection strings (own key list `K5`, appended)
 
 The script refuses to write if a language is missing strings or a `%@` placeholder count differs.
 Translations are machine-drafted; have native speakers review before release.

@@ -8,6 +8,56 @@ struct TranscriptTests {
         SonioxToken(text: text, isFinal: final, translationStatus: translation ? "translation" : "original")
     }
 
+    /// Speech already in the target language: Soniox marks it `none`.
+    private func same(_ text: String, final: Bool = true) -> SonioxToken {
+        SonioxToken(text: text, isFinal: final, translationStatus: "none")
+    }
+
+    @Test func untranslatedSpeechStaysInTheTranslationLine() {
+        let t = Transcript()
+        t.apply([token("Hi"), token(" hello")])
+        t.apply([token("你好你好，", translation: true)])
+        t.apply([same(" 小朋友")])
+        #expect(t.rows.map(\.source) == ["Hi hello 小朋友"])
+        #expect(t.rows.map(\.target) == ["你好你好， 小朋友"])
+    }
+
+    @Test func untranslatedSpeechBeforeAPendingTranslationWaitsInOrder() {
+        let t = Transcript()
+        t.apply([token("OK,"), same(" 你听"), token(" stop here.")])
+        // Neither English part translated yet: show nothing rather than "你听" first.
+        #expect(t.rows.first?.target == "")
+        t.apply([token("好，", translation: true)])
+        #expect(t.rows.first?.target == "好， 你听")
+        t.apply([token(" 停在这里。", translation: true)])
+        #expect(t.rows.first?.target == "好， 你听 停在这里。")
+    }
+
+    @Test func rowEntirelyInTheTargetLanguageHasNoTranslationLine() {
+        let t = Transcript()
+        t.apply([same("然后我们去吃饭。"), token("<end>")])
+        #expect(t.rows.map(\.source) == ["然后我们去吃饭。"])
+        #expect(t.rows.map(\.target) == [""])
+    }
+
+    /// Replays a real mixed English/Chinese session (→ zh) recorded on 2026-10-13.
+    @Test func realMixedSessionFixture() throws {
+        let url = try #require(Bundle(for: BundleToken.self).url(forResource: "soniox-mixed-session", withExtension: "json"))
+        let messages = try JSONDecoder().decode([[SonioxToken]].self, from: Data(contentsOf: url))
+        let t = Transcript()
+        for tokens in messages { t.apply(tokens) }
+
+        #expect(t.rows.map(\.source) == [
+            "Hi.", "Hello. 小朋友。", "Today we have a meeting", "with the client. 然后我们一起去吃饭。",
+            "I think the budget is too high. 你觉得呢？",
+        ])
+        #expect(t.rows.map(\.target) == [
+            "你好。", "你好。 小朋友。", "今天我们有个会议，", "和客户见面。 然后我们一起去吃饭。",
+            "我觉得预算太高了。 你觉得呢？",
+        ])
+        #expect(t.dominantSpokenLanguage(minCharacters: 20) == "en")
+    }
+
     @Test func pairsEachSourceChunkWithItsTranslation() {
         let t = Transcript()
         t.apply([token("Hello"), token(" there.")])

@@ -82,6 +82,7 @@ cd ios && xcodegen generate
 
 ```bash
 npm test -w backend                                   # App Attest assertion, plans, metering
+npm test -w web                                       # caption rows, incl. a recorded mixed-language session
 npm run typecheck                                     # backend + infra + web build
 cd ios && xcodebuild test -scheme Catchline -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
@@ -177,6 +178,7 @@ iOS 模拟器连本地 mock（仅 Debug 构建）：`cd ios && xcodegen generate
 ### 测试
 
 - `npm test -w backend`：App Attest 签名、方案判断、计量
+- `npm test -w web`：字幕分行与翻译拼接（含一段真实录制的中英混说会话）
 - `npm run typecheck`：后端、infra、网页构建
 - iOS：`cd ios && xcodebuild test -scheme Catchline -destination 'platform=iOS Simulator,name=iPhone 17'`
 - 真机和订阅的手动测试见 [docs/TESTING.md](docs/TESTING.md)。

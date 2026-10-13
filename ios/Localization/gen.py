@@ -6,10 +6,13 @@ T = {}
 for m in ('t1', 't2', 't3'):
     T.update(importlib.import_module(m).T)
 P = importlib.import_module('t4').P
+t5 = importlib.import_module('t5')
+K = K + t5.K5
 for lang in T:
     T[lang] = list(T[lang])
     T[lang][5] = P[lang][0]
     T[lang] += P[lang][1:]
+    T[lang] += t5.L5[lang]
 errors = []
 for lang, vals in T.items():
     if len(vals) != len(K): errors.append(f"{lang}: {len(vals)} vs {len(K)}"); continue

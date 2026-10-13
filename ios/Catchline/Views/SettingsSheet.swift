@@ -5,10 +5,9 @@ struct SettingsSheet: View {
     @Environment(SubscriptionStore.self) private var store
     @Environment(Captioner.self) private var captioner
     @Binding var showPaywall: Bool
-    private let languages = Language.all
     @Environment(\.dismiss) private var dismiss
-    @AppStorage(Prefs.sourceLang) private var sourceLang = "en"
-    @AppStorage(Prefs.targetLang) private var targetLang = Language.defaultTarget
+    @AppStorage(Prefs.sourceLang) private var sourceLang = Language.auto
+    @AppStorage(Prefs.targetLang) private var targetLang = Language.systemTarget
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
 
@@ -16,14 +15,17 @@ struct SettingsSheet: View {
         NavigationStack {
             Form {
                 Section("Languages") {
-                    Picker("Listen to", selection: $sourceLang) {
-                        ForEach(languages) { Text($0.label).tag($0.code) }
+                    NavigationLink {
+                        LanguagePicker(title: "Language you’ll hear", selection: $sourceLang, allowsAuto: true,
+                                       suggested: Language.likelySources(target: targetLang))
+                    } label: {
+                        LabeledContent("Listen to", value: sourceLang == Language.auto ? String(localized: "Auto-detect") : Language(code: sourceLang).label)
                     }
-                    .pickerStyle(.navigationLink)
-                    Picker("Translate into", selection: $targetLang) {
-                        ForEach(languages) { Text($0.label).tag($0.code) }
+                    NavigationLink {
+                        LanguagePicker(title: "Translate into", selection: $targetLang)
+                    } label: {
+                        LabeledContent("Translate into", value: Language(code: targetLang).label)
                     }
-                    .pickerStyle(.navigationLink)
                 }
                 Section {
                     TextField("Mark Johnson, Acme Corp, W-2", text: $terms, axis: .vertical)

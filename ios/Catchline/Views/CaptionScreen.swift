@@ -2,18 +2,24 @@ import SwiftUI
 
 struct CaptionScreen: View {
     @Environment(Captioner.self) private var captioner
-    @AppStorage(Prefs.sourceLang) private var sourceLang = "en"
-    @AppStorage(Prefs.targetLang) private var targetLang = Language.defaultTarget
+    @AppStorage(Prefs.sourceLang) private var sourceLang = Language.auto
+    @AppStorage(Prefs.targetLang) private var targetLang = Language.systemTarget
+    @AppStorage(Prefs.onboarded) private var onboarded = false
+    @AppStorage(Prefs.sourceTipAnswered) private var sourceTipAnswered = false
     @AppStorage(Prefs.fontScale) private var fontScale = 1.0
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
     @State private var showSettings = false
     @State private var showPaywall = false
     @State private var confirmNewSession = false
+    @State private var showLanguages = false
+    /// Detected language offered as the listening language after an auto-detect session.
+    @State private var suggestedSource: String?
 
     var body: some View {
         VStack(spacing: 0) {
             header
+            languageBar
             AllowanceBar { showPaywall = true }
             Divider()
             CaptionList(transcript: captioner.transcript, fontScale: fontScale, waiting: captioner.status == .live)
@@ -27,6 +33,7 @@ struct CaptionScreen: View {
                     .padding(.horizontal, 16)
                     .padding(.bottom, 8)
             }
+            if let code = suggestedSource { sourceTip(code) }
             Divider()
             controls
         }
@@ -40,8 +47,16 @@ struct CaptionScreen: View {
         .sheet(isPresented: $showPaywall) {
             PaywallSheet()
         }
-        .onChange(of: captioner.status) { _, status in
+        .sheet(isPresented: $showLanguages) {
+            LanguageSheet(sourceLang: $sourceLang, targetLang: $targetLang)
+        }
+        .fullScreenCover(isPresented: Binding(get: { !onboarded }, set: { onboarded = !$0 })) {
+            OnboardingView()
+        }
+        .onChange(of: captioner.status) { old, status in
             if status == .quotaExhausted { showPaywall = true }
+            if status.isActive { suggestedSource = nil }
+            if old == .stopping, !status.isActive { offerDetectedSource() }
         }
         .confirmationDialog("Starting a new session clears the current captions", isPresented: $confirmNewSession, titleVisibility: .visible) {
             Button("Clear and Start", role: .destructive) { start() }
@@ -82,6 +97,76 @@ struct CaptionScreen: View {
         .buttonStyle(.borderless)
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
+    }
+
+    /// "Auto-detect → 中文  ⇄" — tap to change, ⇄ to swap.
+    private var languageBar: some View {
+        HStack(spacing: 8) {
+            Button {
+                showLanguages = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "globe")
+                    Text(sourceLang == Language.auto ? String(localized: "Auto-detect") : Language(code: sourceLang).name)
+                    Image(systemName: "arrow.right").font(.caption.weight(.bold)).foregroundStyle(.secondary)
+                    Text(Language(code: targetLang).name)
+                    if sourceLang == targetLang {
+                        Text("Captions only").foregroundStyle(.secondary)
+                    }
+                    Image(systemName: "chevron.down").font(.caption2.weight(.bold)).foregroundStyle(.secondary)
+                }
+                .lineLimit(1)
+            }
+            .accessibilityLabel("Languages")
+            Spacer()
+            Button {
+                (sourceLang, targetLang) = (targetLang, sourceLang)
+            } label: {
+                Image(systemName: "arrow.left.arrow.right")
+            }
+            .disabled(sourceLang == Language.auto || sourceLang == targetLang)
+            .accessibilityLabel("Swap languages")
+        }
+        .font(.subheadline.weight(.medium))
+        .buttonStyle(.borderless)
+        .disabled(captioner.status.isActive || captioner.status == .stopping)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
+    }
+
+    private func offerDetectedSource() {
+        guard sourceLang == Language.auto, !sourceTipAnswered,
+              let code = captioner.transcript.dominantSpokenLanguage(), code != targetLang,
+              Language.sonioxCodes.contains(code) else { return }
+        withAnimation { suggestedSource = code }
+    }
+
+    private func sourceTip(_ code: String) -> some View {
+        let name = Language(code: code).name
+        return VStack(alignment: .leading, spacing: 10) {
+            Text("Most of what you heard was \(name). Set it as the language you’ll hear for more accurate captions?")
+                .font(.footnote)
+            HStack {
+                Button("Use \(name)") {
+                    sourceLang = code
+                    sourceTipAnswered = true
+                    withAnimation { suggestedSource = nil }
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Not Now") {
+                    sourceTipAnswered = true
+                    withAnimation { suggestedSource = nil }
+                }
+                .buttonStyle(.bordered)
+            }
+            .controlSize(.small)
+            .font(.footnote.weight(.semibold))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(.thinMaterial, in: .rect(cornerRadius: 10))
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
     }
 
     @ViewBuilder
@@ -217,7 +302,7 @@ private struct CaptionList: View {
                     }
                     ForEach(transcript.rows) { row in
                         let isLast = row.id == transcript.rows.last?.id
-                        let liveHere = isLast && !row.closed && row.target.isEmpty
+                        let liveHere = isLast && !row.closed && !row.hasTranslation
                         CaptionRowView(
                             source: row.source,
                             target: row.target,
@@ -227,7 +312,7 @@ private struct CaptionList: View {
                         )
                         Divider()
                     }
-                    if let last = transcript.rows.last, last.closed || !last.target.isEmpty,
+                    if let last = transcript.rows.last, last.closed || last.hasTranslation,
                        !transcript.liveSource.isEmpty || !transcript.liveTarget.isEmpty {
                         CaptionRowView(source: "", target: "", liveSource: transcript.liveSource, liveTarget: transcript.liveTarget, fontScale: fontScale)
                     } else if transcript.rows.isEmpty, !transcript.liveSource.isEmpty {

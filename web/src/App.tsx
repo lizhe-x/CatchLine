@@ -2,12 +2,16 @@ import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState, useSyn
 import { authEnabled, signOut } from './auth'
 import { Captioner, type CaptionerStatus } from './captioner'
 import {
+  answerSourceTip,
+  AUTO,
   FONT_SCALE_MAX,
   FONT_SCALE_MIN,
   LANGUAGES,
+  languageName,
   loadSettings,
   parseTerms,
   saveSettings,
+  sourceTipAnswered,
   type Settings,
 } from './settings'
 import { exportText, formatElapsed, Transcript, type Row } from './transcript'
@@ -32,6 +36,8 @@ export default function App() {
   const [startedAt, setStartedAt] = useState<number | null>(null)
   const [endedAt, setEndedAt] = useState<number | null>(null)
   const [showSettings, setShowSettings] = useState(false)
+  /** Detected language offered as the listening language after an auto-detect session. */
+  const [suggestedSource, setSuggestedSource] = useState<string>()
   const now = useNow(startedAt !== null && endedAt === null)
 
   const transcriptRef = useRef<Transcript>(null)
@@ -66,6 +72,7 @@ export default function App() {
     setStartedAt(Date.now())
     setEndedAt(null)
     setShowSettings(false)
+    setSuggestedSource(undefined)
     const terms = parseTerms(settings.terms)
     const background = settings.background.trim()
     captionerRef.current?.start({
@@ -82,6 +89,16 @@ export default function App() {
     await captionerRef.current?.stop()
     transcript.commitLive()
     setEndedAt(Date.now())
+    const detected = transcript.dominantSpokenLanguage()
+    if (settings.sourceLang === AUTO && !sourceTipAnswered() && detected && detected !== settings.targetLang) {
+      setSuggestedSource(detected)
+    }
+  }
+
+  const answerTip = (use: boolean) => {
+    if (use && suggestedSource) setSettings((s) => ({ ...s, sourceLang: suggestedSource }))
+    answerSourceTip()
+    setSuggestedSource(undefined)
   }
 
   const download = () => {
@@ -156,6 +173,19 @@ export default function App() {
       )}
 
       {message && <div className={`banner banner-${status}`}>{message}</div>}
+      {suggestedSource && (
+        <div className="banner tip">
+          <p>刚才听到的大部分是{languageName(suggestedSource)}。设为要听的语言，字幕会更准确？</p>
+          <div className="tip-actions">
+            <button className="primary small" onClick={() => answerTip(true)}>
+              使用{languageName(suggestedSource)}
+            </button>
+            <button className="secondary small" onClick={() => answerTip(false)}>
+              暂不
+            </button>
+          </div>
+        </div>
+      )}
 
       <footer className="controls">
         {status === 'needs-tap' ? (
@@ -194,8 +224,9 @@ function SettingsPanel({ settings, onChange }: { settings: Settings; onChange: (
     <main className="settings">
       <div className="lang-row">
         <label>
-          <span>听</span>
+          <span>要听的语言</span>
           <select value={settings.sourceLang} onChange={(e) => set('sourceLang', e.target.value)}>
+            <option value={AUTO}>自动识别</option>
             {LANGUAGES.map((l) => (
               <option key={l.code} value={l.code}>
                 {l.label}
@@ -203,7 +234,14 @@ function SettingsPanel({ settings, onChange }: { settings: Settings; onChange: (
             ))}
           </select>
         </label>
-        <span className="arrow">→</span>
+        <button
+          className="icon swap"
+          onClick={() => onChange({ ...settings, sourceLang: settings.targetLang, targetLang: settings.sourceLang })}
+          disabled={settings.sourceLang === AUTO || settings.sourceLang === settings.targetLang}
+          aria-label="互换语言"
+        >
+          ⇄
+        </button>
         <label>
           <span>翻译成</span>
           <select value={settings.targetLang} onChange={(e) => set('targetLang', e.target.value)}>
@@ -215,6 +253,11 @@ function SettingsPanel({ settings, onChange }: { settings: Settings; onChange: (
           </select>
         </label>
       </div>
+      <p className="hint">
+        {settings.sourceLang === settings.targetLang
+          ? '相同语言：只显示字幕，不翻译。'
+          : '要听的语言可选。选了字幕更准确；自动识别支持任何语言，混着说也行。'}
+      </p>
       <label className="field">
         <span>关键词：人名、公司、术语（逗号或换行分隔）</span>
         <textarea
@@ -273,7 +316,7 @@ function Captions(props: {
 
   const last = rows.at(-1)
   // Live text continues the last row unless that row is already finished.
-  const liveInLast = last !== undefined && !last.closed && !last.target
+  const liveInLast = last !== undefined && !last.closed && !last.hasTranslation
   const liveRowNeeded = !liveInLast && (liveSource || liveTarget)
 
   return (
