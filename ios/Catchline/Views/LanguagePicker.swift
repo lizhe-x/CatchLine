@@ -62,7 +62,7 @@ struct LanguagePicker: View {
     }
 }
 
-/// "Translate into" + "Language you'll hear" form sections, shared by the
+/// "Language you'll hear" + "Translate into" form sections (in listening order), shared by the
 /// first-launch screen and the language sheet on the caption screen.
 struct LanguageSections: View {
     @Binding var sourceLang: String
@@ -70,15 +70,6 @@ struct LanguageSections: View {
 
     var body: some View {
         let likely = Language.likelySources(target: targetLang)
-        Section {
-            NavigationLink {
-                LanguagePicker(title: "Translate into", selection: $targetLang, suggested: targetSuggestions)
-            } label: {
-                Text(Language(code: targetLang).label)
-            }
-        } header: {
-            Text("Translate into")
-        }
         Section {
             choice(Language.auto, Text("Auto-detect"))
             ForEach(quickSources(likely), id: \.self) { code in
@@ -97,6 +88,15 @@ struct LanguageSections: View {
             } else {
                 Text("Optional. Picking the language you’ll hear makes captions more accurate. Auto-detect works for any language, even mixed.")
             }
+        }
+        Section {
+            NavigationLink {
+                LanguagePicker(title: "Translate into", selection: $targetLang, suggested: targetSuggestions)
+            } label: {
+                Text(Language(code: targetLang).label)
+            }
+        } header: {
+            Text("Translate into")
         }
     }
 
