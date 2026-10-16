@@ -121,6 +121,9 @@ button:disabled {
 .status-needs-tap .dot {
   background: var(--warn);
 }
+.status-waiting .dot {
+  background: var(--ok);
+}
 .status-error .dot {
   background: var(--danger);
 }

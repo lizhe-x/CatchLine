@@ -112,6 +112,7 @@ UI strings are English in code; 15 languages are generated into `Localizable.xcs
 
 - **Audio never touches our backend.** The client streams directly to Soniox with a short-lived, single-use key; the long-lived key stays in SSM.
 - **No account on iOS.** App Attest proves requests come from the genuine app on a real device; an anonymous id in iCloud Keychain follows the user across reinstalls and devices; StoreKit's signed transactions prove entitlement.
+- **Silence isn't billed.** Soniox charges for the whole stream, so after 20 s without sound (RMS below about -44 dBFS) the client finishes the stream and settles the lease. The mic keeps listening locally, and the next sound opens a new stream, led by 1 s of pre-roll so the first words aren't lost.
 - **Server-side metering with leases.** The stream cap is enforced by Soniox itself (`max_session_duration_seconds`), so a tampered client can't exceed its allowance.
 - **Least-privilege Lambda roles**: each can write only its own log group, read one SSM parameter, decrypt via SSM only, and (AppApi) do item-level CRUD on one table. No `AWSLambdaBasicExecutionRole`.
 - **SSM instead of Secrets Manager**: standard parameters are free and one key doesn't need managed rotation.
@@ -201,6 +202,7 @@ iOS 模拟器连本地 mock（仅 Debug 构建）：`cd ios && xcodegen generate
 
 - **音频不经过后端**：客户端用短期、单次使用的 key 直连 Soniox；长期 key 只在 SSM。
 - **iOS 不需要账号**：App Attest 证明请求来自真机上的正版 App；iCloud 钥匙串里的匿名 ID 让重装、换机后用量不丢；StoreKit 签名交易证明订阅。
+- **静音不计费**：Soniox 按整条流的时长收费，所以连续 20 秒没有声音（音量低于约 -44 dBFS）时，客户端会结束这条流并结算租约；麦克风继续在本地监听，一有声音就重新开流，并先补发 1 秒预录音频，开头的字不会丢。
 - **服务器端按租约计量**：流时长上限由 Soniox 自己执行（`max_session_duration_seconds`），篡改客户端也无法超额使用。
 - **Lambda 最小权限**：只能写自己的日志组、读一个 SSM 参数、经由 SSM 解密，AppApi 另外只能对一张表做单条读写；不使用 `AWSLambdaBasicExecutionRole`。
 - **用 SSM 而不是 Secrets Manager**：标准参数免费，单个 key 不需要自动轮换。

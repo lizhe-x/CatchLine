@@ -21,13 +21,14 @@ const STATUS_LABEL: Record<CaptionerStatus, string> = {
   idle: '未开始',
   starting: '连接中…',
   live: '实时',
+  waiting: '等待说话',
   reconnecting: '重连中…',
   stopping: '收尾中…',
   'needs-tap': '已暂停',
   error: '出错了',
 }
 
-const ACTIVE: CaptionerStatus[] = ['starting', 'live', 'reconnecting', 'needs-tap']
+const ACTIVE: CaptionerStatus[] = ['starting', 'live', 'waiting', 'reconnecting', 'needs-tap']
 
 export default function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings)
