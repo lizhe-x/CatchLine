@@ -35,16 +35,25 @@ struct CaptionSettings {
 /// Audio captured while (re)connecting is buffered and sent first, and the
 /// transcript lives here rather than in a stream, so reconnects (network
 /// drops, the per-stream duration cap, expired keys) never lose captions.
+///
+/// Soniox bills the whole stream, silence included, and so do we (the lease
+/// runs on the server's clock). So after `idleCloseSeconds` without sound the
+/// stream is finished and the lease settled; the mic keeps listening locally,
+/// and the first loud chunk reopens a stream, led by ~1 s of pre-roll so the
+/// first words aren't lost.
 @Observable
 final class Captioner {
     enum Status {
         case idle, starting, live, reconnecting, interrupted, stopping, quotaExhausted, error
+        /// Silence: no stream open (nothing billed); the next sound reconnects.
+        case waiting
 
         var label: String {
             switch self {
             case .idle: String(localized: "Ready")
             case .starting: String(localized: "Connecting…")
             case .live: String(localized: "Live")
+            case .waiting: String(localized: "Waiting for speech")
             case .reconnecting: String(localized: "Reconnecting…")
             case .interrupted: String(localized: "Paused")
             case .stopping: String(localized: "Finishing…")
@@ -53,7 +62,7 @@ final class Captioner {
             }
         }
 
-        var isActive: Bool { [.starting, .live, .reconnecting, .interrupted].contains(self) }
+        var isActive: Bool { [.starting, .live, .reconnecting, .interrupted, .waiting].contains(self) }
     }
 
     private(set) var status: Status = .idle
@@ -77,9 +86,22 @@ final class Captioner {
     private var stream: SonioxStream?
     private var pending: [Data] = []
     private var wantRunning = false
+    /// Closed for silence: audio only feeds `preroll` until something loud.
+    private var dormant = false
+    private var preroll: [Data] = []
+    private var lastSoundAt = Date.distantPast
+    private var wake: CheckedContinuation<Void, Never>?
 
     /// ~20 s of 16 kHz Int16 audio kept while disconnected.
     private static let maxPendingBytes = 16_000 * 2 * 20
+    /// Audio kept while dormant, sent first when a stream reopens.
+    private static let prerollBytes = 16_000 * 2 * 1
+    /// Close the stream after this long without sound. Long enough that
+    /// pauses, thinking and turn-taking don't cut a conversation up.
+    private static let idleCloseSeconds = 20.0
+    /// Chunk RMS (full scale 1.0) counted as sound, about -44 dBFS: low, so
+    /// quiet and far-away voices (a phone on speaker) still count.
+    static let soundRMS = 0.006
 
     init(api: APIClient) {
         self.api = api
@@ -107,6 +129,9 @@ final class Captioner {
 
         transcript.reset()
         pending = []
+        preroll = []
+        dormant = false
+        lastSoundAt = .now
         config = settings.sonioxConfig()
         startedAt = .now
         endedAt = nil
@@ -142,6 +167,7 @@ final class Captioner {
         guard wantRunning else { return }
         wantRunning = false
         status = .stopping
+        resumeWake()
 
         source?.stop()
         source = nil
@@ -178,6 +204,13 @@ final class Captioner {
     private func runLoop() async {
         var failures = 0
         while wantRunning && !Task.isCancelled {
+            if dormant {
+                // Settle the lease now so the silence isn't billed, then wait.
+                if let latest = try? await api.endSession() { plan = latest }
+                if dormant, status != .interrupted { status = .waiting }
+                await waitForSound()
+                guard wantRunning, !Task.isCancelled else { break }
+            }
             if status != .interrupted { status = failures == 0 ? .starting : .reconnecting }
             var openedAt: Date?
             do {
@@ -205,8 +238,23 @@ final class Captioner {
                     self.stream = nil
                     await stream.finish()
                 }
+                // Close for silence the same way.
+                let idleWatch = Task { [weak self] in
+                    while !Task.isCancelled {
+                        try? await Task.sleep(for: .seconds(1))
+                        guard let self, self.stream === stream else { return }
+                        if Date.now.timeIntervalSince(self.lastSoundAt) >= Self.idleCloseSeconds {
+                            print("[captioner] silence: closing the stream")
+                            self.dormant = true
+                            self.stream = nil
+                            await stream.finish()
+                            return
+                        }
+                    }
+                }
                 defer {
                     rotation.cancel()
+                    idleWatch.cancel()
                     if self.stream === stream { self.stream = nil }
                     stream.close()
                     leaseStartedAt = nil
@@ -216,8 +264,8 @@ final class Captioner {
                     if let tokens = response.tokens, !tokens.isEmpty { transcript.apply(tokens) }
                     if response.finished == true { break }
                 }
-                // Server ended the stream: our stop(), or the lease ran out.
-                // Loop around for the next lease (or a quota error).
+                // Server ended the stream: our stop(), silence, or the lease
+                // ran out. Loop around for the next lease (or a quota error).
                 failures = 0
             } catch let APIError.quotaExhausted(latest) {
                 if let latest { plan = latest }
@@ -246,6 +294,24 @@ final class Captioner {
     private func handle(_ event: AudioCaptureEvent) async {
         switch event {
         case let .chunk(data):
+            if Self.rms(data) >= Self.soundRMS {
+                lastSoundAt = .now
+                if dormant {
+                    print("[captioner] sound: reopening")
+                    dormant = false
+                    pending = preroll
+                    preroll = []
+                    resumeWake()
+                }
+            }
+            if dormant {
+                preroll.append(data)
+                var total = preroll.reduce(0) { $0 + $1.count }
+                while total > Self.prerollBytes, preroll.count > 1 {
+                    total -= preroll.removeFirst().count
+                }
+                return
+            }
             guard let stream else {
                 pending.append(data)
                 var total = pending.reduce(0) { $0 + $1.count }
@@ -270,7 +336,7 @@ final class Captioner {
             message = String(localized: "The microphone is in use by the system (e.g. a call). Captions resume automatically afterwards.")
         case .resumed:
             if status == .interrupted {
-                status = stream == nil ? .reconnecting : .live
+                status = dormant ? .waiting : stream == nil ? .reconnecting : .live
                 message = nil
             }
         case let .failed(reason):
@@ -280,6 +346,7 @@ final class Captioner {
 
     private func fail(_ status: Status, _ message: String) {
         wantRunning = false
+        resumeWake()
         source?.stop()
         source = nil
         audioContinuation?.finish()
@@ -290,6 +357,31 @@ final class Captioner {
         self.status = status
         self.message = message
         Task { if let latest = try? await api.endSession() { plan = latest } }
+    }
+
+    private func waitForSound() async {
+        await withCheckedContinuation { continuation in
+            if dormant && wantRunning { wake = continuation } else { continuation.resume() }
+        }
+    }
+
+    private func resumeWake() {
+        wake?.resume()
+        wake = nil
+    }
+
+    /// Root mean square of 16-bit PCM, full scale 1.0.
+    nonisolated static func rms(_ data: Data) -> Double {
+        data.withUnsafeBytes { raw in
+            let samples = raw.bindMemory(to: Int16.self)
+            guard !samples.isEmpty else { return 0 }
+            var sum = 0.0
+            for sample in samples {
+                let x = Double(sample) / 32768
+                sum += x * x
+            }
+            return (sum / Double(samples.count)).squareRoot()
+        }
     }
 
     private static func makeSource() -> AudioSource {

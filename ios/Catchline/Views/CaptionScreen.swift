@@ -211,7 +211,7 @@ struct CaptionScreen: View {
 
     private var statusColor: Color {
         switch captioner.status {
-        case .live: .green
+        case .live, .waiting: .green
         case .starting, .reconnecting, .interrupted, .stopping: .orange
         case .error, .quotaExhausted: .red
         case .idle: .gray
