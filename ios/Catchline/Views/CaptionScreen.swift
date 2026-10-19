@@ -9,10 +9,13 @@ struct CaptionScreen: View {
     @AppStorage(Prefs.fontScale) private var fontScale = 1.0
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
+    @AppStorage(Prefs.crossBorderConsent) private var crossBorderConsent = false
+    @Environment(\.openURL) private var openURL
     @State private var showSettings = false
     @State private var showPaywall = false
     @State private var confirmNewSession = false
     @State private var showLanguages = false
+    @State private var askCrossBorderConsent = false
     /// Detected language offered as the listening language after an auto-detect session.
     @State private var suggestedSource: String?
 
@@ -62,6 +65,16 @@ struct CaptionScreen: View {
             Button("Clear and Start", role: .destructive) { start() }
         } message: {
             Text("You can export them first.")
+        }
+        .alert("Audio Is Processed in the United States", isPresented: $askCrossBorderConsent) {
+            Button("Agree and Start") {
+                crossBorderConsent = true
+                start()
+            }
+            Button("Privacy Policy") { openURL(AppConfig.privacyURL) }
+            Button("Not Now", role: .cancel) {}
+        } message: {
+            Text("To show captions and translations, CatchLine sends your microphone audio, and any keywords or background you enter, over an encrypted connection to Soniox Inc. in the United States for speech recognition and translation. Soniox doesn’t keep the audio or text after returning results. Your usage time and subscription status are stored on Amazon Web Services servers in the United States. You can withdraw this consent at any time in Settings.")
         }
     }
 
@@ -220,7 +233,13 @@ struct CaptionScreen: View {
 
     private func start() {
         let settings = CaptionSettings(sourceLang: sourceLang, targetLang: targetLang, terms: terms, background: background)
-        Task { await captioner.start(with: settings) }
+        Task {
+            if !crossBorderConsent, await AppConfig.isMainlandChinaStorefront() {
+                askCrossBorderConsent = true
+                return
+            }
+            await captioner.start(with: settings)
+        }
     }
 
     private func exportFile() -> URL? {

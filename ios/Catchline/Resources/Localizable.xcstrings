@@ -756,6 +756,100 @@
         }
       }
     },
+    "Agree and Start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موافقة وبدء"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zustimmen und starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptar y empezar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accepter et démarrer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सहमत हों और शुरू करें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setuju dan Mulai"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accetta e avvia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意して開始"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동의하고 시작"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Concordar e começar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Согласиться и начать"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kabul Et ve Başlat"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Đồng ý và bắt đầu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意并开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意並開始"
+          }
+        }
+      }
+    },
     "All Languages": {
       "localizations": {
         "ar": {
@@ -940,6 +1034,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "匿名 ID"
+          }
+        }
+      }
+    },
+    "Audio Is Processed in the United States": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تتم معالجة الصوت في الولايات المتحدة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio wird in den USA verarbeitet"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El audio se procesa en Estados Unidos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’audio est traité aux États-Unis"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ऑडियो अमेरिका में प्रोसेस होता है"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio diproses di Amerika Serikat"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’audio viene elaborato negli Stati Uniti"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声は米国で処理されます"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오디오는 미국에서 처리됩니다"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O áudio é processado nos Estados Unidos"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Аудио обрабатывается в США"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses Amerika Birleşik Devletleri’nde işlenir"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Âm thanh được xử lý tại Hoa Kỳ"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频将在美国处理"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音訊將在美國處理"
           }
         }
       }
@@ -8003,6 +8191,100 @@
         }
       }
     },
+    "To show captions and translations, CatchLine sends your microphone audio, and any keywords or background you enter, over an encrypted connection to Soniox Inc. in the United States for speech recognition and translation. Soniox doesn’t keep the audio or text after returning results. Your usage time and subscription status are stored on Amazon Web Services servers in the United States. You can withdraw this consent at any time in Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لعرض الترجمة النصية والترجمة، يرسل CatchLine صوت الميكروفون، وأي كلمات مفتاحية أو خلفية تُدخلها، عبر اتصال مشفّر إلى Soniox Inc. في الولايات المتحدة للتعرّف على الكلام والترجمة. لا تحتفظ Soniox بالصوت أو النص بعد إرجاع النتائج. يُخزَّن وقت استخدامك وحالة اشتراكك على خوادم Amazon Web Services في الولايات المتحدة. يمكنك سحب هذه الموافقة في أي وقت من الإعدادات."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Für Untertitel und Übersetzungen sendet CatchLine dein Mikrofon-Audio sowie eingegebene Stichwörter oder Hintergrundinfos über eine verschlüsselte Verbindung an Soniox Inc. in den USA zur Spracherkennung und Übersetzung. Soniox speichert Audio und Text nach der Rückgabe der Ergebnisse nicht. Deine Nutzungszeit und dein Abostatus werden auf Servern von Amazon Web Services in den USA gespeichert. Du kannst diese Einwilligung jederzeit in den Einstellungen widerrufen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para mostrar subtítulos y traducciones, CatchLine envía el audio del micrófono, y las palabras clave o el contexto que escribas, mediante una conexión cifrada a Soniox Inc. en Estados Unidos para el reconocimiento de voz y la traducción. Soniox no guarda el audio ni el texto después de devolver los resultados. Tu tiempo de uso y el estado de tu suscripción se guardan en servidores de Amazon Web Services en Estados Unidos. Puedes retirar este consentimiento en cualquier momento en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour afficher les sous-titres et les traductions, CatchLine envoie l’audio du micro, ainsi que les mots-clés ou le contexte que vous saisissez, via une connexion chiffrée à Soniox Inc. aux États-Unis pour la reconnaissance vocale et la traduction. Soniox ne conserve ni l’audio ni le texte après avoir renvoyé les résultats. Votre temps d’utilisation et l’état de votre abonnement sont stockés sur des serveurs Amazon Web Services aux États-Unis. Vous pouvez retirer ce consentement à tout moment dans les Réglages."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कैप्शन और अनुवाद दिखाने के लिए CatchLine आपके माइक्रोफ़ोन का ऑडियो, और आपके डाले गए कीवर्ड या पृष्ठभूमि, एन्क्रिप्टेड कनेक्शन से अमेरिका की Soniox Inc. को स्पीच रिकग्निशन और अनुवाद के लिए भेजता है। नतीजे लौटाने के बाद Soniox ऑडियो या टेक्स्ट नहीं रखता। आपका इस्तेमाल का समय और सब्सक्रिप्शन की स्थिति अमेरिका में Amazon Web Services के सर्वरों पर रखी जाती है। आप सेटिंग में कभी भी यह सहमति वापस ले सकते हैं।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untuk menampilkan teks dan terjemahan, CatchLine mengirim audio mikrofon, serta kata kunci atau latar belakang yang Anda isi, melalui koneksi terenkripsi ke Soniox Inc. di Amerika Serikat untuk pengenalan suara dan terjemahan. Soniox tidak menyimpan audio atau teks setelah mengembalikan hasil. Waktu pemakaian dan status langganan Anda disimpan di server Amazon Web Services di Amerika Serikat. Anda dapat menarik persetujuan ini kapan saja di Pengaturan."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per mostrare sottotitoli e traduzioni, CatchLine invia l’audio del microfono, insieme a parole chiave o contesto che inserisci, tramite una connessione cifrata a Soniox Inc. negli Stati Uniti per il riconoscimento vocale e la traduzione. Soniox non conserva audio né testo dopo aver restituito i risultati. Il tempo di utilizzo e lo stato dell’abbonamento sono salvati su server Amazon Web Services negli Stati Uniti. Puoi revocare questo consenso in qualsiasi momento nelle Impostazioni."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字幕と翻訳を表示するため、CatchLine はマイクの音声と、入力したキーワードや背景情報を、暗号化された接続で米国の Soniox Inc. に送信し、音声認識と翻訳を行います。Soniox は結果を返した後、音声とテキストを保持しません。利用時間とサブスクリプションの状態は、米国の Amazon Web Services のサーバーに保存されます。この同意は設定からいつでも撤回できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자막과 번역을 표시하기 위해 CatchLine은 마이크 오디오와 입력한 키워드 및 배경 정보를 암호화된 연결로 미국의 Soniox Inc.에 보내 음성 인식과 번역을 처리합니다. Soniox는 결과를 반환한 뒤 오디오와 텍스트를 보관하지 않습니다. 사용 시간과 구독 상태는 미국의 Amazon Web Services 서버에 저장됩니다. 이 동의는 설정에서 언제든지 철회할 수 있습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para mostrar legendas e traduções, o CatchLine envia o áudio do microfone, e as palavras-chave ou o contexto que você digitar, por uma conexão criptografada à Soniox Inc. nos Estados Unidos para reconhecimento de fala e tradução. A Soniox não guarda o áudio nem o texto depois de devolver os resultados. Seu tempo de uso e o status da assinatura ficam em servidores da Amazon Web Services nos Estados Unidos. Você pode retirar este consentimento a qualquer momento em Ajustes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чтобы показывать субтитры и перевод, CatchLine по зашифрованному соединению отправляет звук с микрофона, а также введённые вами ключевые слова и контекст, компании Soniox Inc. в США для распознавания речи и перевода. Soniox не хранит аудио и текст после выдачи результата. Время использования и статус подписки хранятся на серверах Amazon Web Services в США. Вы можете отозвать это согласие в любой момент в настройках."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altyazı ve çeviri göstermek için CatchLine mikrofon sesini ve girdiğiniz anahtar kelimeleri ya da arka plan bilgisini şifreli bir bağlantıyla ABD’deki Soniox Inc.’e konuşma tanıma ve çeviri için gönderir. Soniox sonuçları döndürdükten sonra sesi veya metni saklamaz. Kullanım süreniz ve abonelik durumunuz ABD’deki Amazon Web Services sunucularında saklanır. Bu onayı istediğiniz zaman Ayarlar’dan geri çekebilirsiniz."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Để hiển thị phụ đề và bản dịch, CatchLine gửi âm thanh micrô, cùng từ khóa hoặc bối cảnh bạn nhập, qua kết nối được mã hóa tới Soniox Inc. tại Hoa Kỳ để nhận dạng giọng nói và dịch. Soniox không lưu âm thanh hay văn bản sau khi trả kết quả. Thời gian sử dụng và trạng thái gói đăng ký của bạn được lưu trên máy chủ Amazon Web Services tại Hoa Kỳ. Bạn có thể rút lại sự đồng ý này bất cứ lúc nào trong Cài đặt."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为了显示字幕和翻译，CatchLine 会通过加密连接，把麦克风音频以及你填写的关键词和背景说明发送给位于美国的 Soniox Inc.，用于语音识别和翻译。Soniox 返回结果后不保留音频和文字。你的使用时长和订阅状态保存在美国的 Amazon Web Services 服务器上。你可以随时在设置中撤回本同意。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "為了顯示字幕和翻譯，CatchLine 會透過加密連線，把麥克風音訊以及你填寫的關鍵字和背景說明傳送給位於美國的 Soniox Inc.，用於語音辨識和翻譯。Soniox 傳回結果後不保留音訊和文字。你的使用時長和訂閱狀態儲存在美國的 Amazon Web Services 伺服器上。你可以隨時在設定中撤回本同意。"
+          }
+        }
+      }
+    },
     "Translate into": {
       "localizations": {
         "ar": {
@@ -8661,6 +8943,100 @@
         }
       }
     },
+    "Withdraw Consent": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سحب الموافقة"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einwilligung widerrufen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirar consentimiento"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer le consentement"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सहमति वापस लें"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarik Persetujuan"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revoca consenso"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同意を撤回"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "동의 철회"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirar consentimento"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отозвать согласие"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Onayı Geri Çek"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rút lại sự đồng ý"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撤回同意"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撤回同意"
+          }
+        }
+      }
+    },
     "Yearly": {
       "localizations": {
         "ar": {
@@ -8845,6 +9221,100 @@
           "stringUnit": {
             "state": "translated",
             "value": "年繳 · 立即開始"
+          }
+        }
+      }
+    },
+    "You agreed to audio being processed in the United States. After withdrawing, CatchLine asks again before captioning.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وافقتَ على معالجة الصوت في الولايات المتحدة. بعد السحب، سيسألك CatchLine مرة أخرى قبل بدء الترجمة النصية."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Du hast der Verarbeitung von Audio in den USA zugestimmt. Nach dem Widerruf fragt CatchLine vor dem nächsten Start erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptaste que el audio se procese en Estados Unidos. Si lo retiras, CatchLine volverá a preguntar antes de mostrar subtítulos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous avez accepté que l’audio soit traité aux États-Unis. Après retrait, CatchLine vous redemandera avant d’afficher des sous-titres."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आपने अमेरिका में ऑडियो प्रोसेस होने पर सहमति दी है। वापस लेने के बाद CatchLine कैप्शन शुरू करने से पहले फिर पूछेगा।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda telah setuju audio diproses di Amerika Serikat. Setelah ditarik, CatchLine akan bertanya lagi sebelum menampilkan teks."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai acconsentito all’elaborazione dell’audio negli Stati Uniti. Dopo la revoca, CatchLine lo chiederà di nuovo prima dei sottotitoli."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音声を米国で処理することに同意しています。撤回すると、次に字幕を開始する前に再度確認します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오디오를 미국에서 처리하는 데 동의했습니다. 철회하면 다음에 자막을 시작하기 전에 다시 묻습니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Você concordou que o áudio seja processado nos Estados Unidos. Depois de retirar, o CatchLine pergunta de novo antes de mostrar legendas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вы согласились на обработку аудио в США. После отзыва CatchLine спросит снова перед запуском субтитров."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesin ABD’de işlenmesini kabul ettiniz. Geri çektikten sonra CatchLine altyazıdan önce tekrar sorar."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bạn đã đồng ý để âm thanh được xử lý tại Hoa Kỳ. Sau khi rút lại, CatchLine sẽ hỏi lại trước khi hiển thị phụ đề."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已同意音频在美国处理。撤回后，下次开始字幕前会再次询问。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已同意音訊在美國處理。撤回後，下次開始字幕前會再次詢問。"
           }
         }
       }

@@ -1,4 +1,5 @@
 import Foundation
+import StoreKit
 
 /// Deployment values from `npm run deploy` (CatchlineApp stack outputs).
 nonisolated enum AppConfig {
@@ -33,12 +34,22 @@ nonisolated enum AppConfig {
     static var autoStart: Bool { UserDefaults.standard.bool(forKey: "CatchlineAutoStart") }
     /// Launch with `-CatchlineShowSettings YES` to open Settings (screenshots).
     static var showSettings: Bool { UserDefaults.standard.bool(forKey: "CatchlineShowSettings") }
+    /// Launch with `-CatchlineStorefront CHN` to act as if on the China mainland App Store.
+    static var storefrontOverride: String? { UserDefaults.standard.string(forKey: "CatchlineStorefront") }
     #else
     static let useLocalMock = false
     static let audioFilePath: String? = nil
     static let autoStart = false
     static let showSettings = false
+    static let storefrontOverride: String? = nil
     #endif
+
+    /// Users on the China mainland App Store must separately consent before
+    /// audio goes abroad (PIPL art. 39): Soniox and our servers are in the US.
+    static func isMainlandChinaStorefront() async -> Bool {
+        if let storefrontOverride { return storefrontOverride == "CHN" }
+        return await Storefront.current?.countryCode == "CHN"
+    }
 
     static var apiBase: URL {
         useLocalMock ? URL(string: "http://localhost:5173")! : apiBaseURL

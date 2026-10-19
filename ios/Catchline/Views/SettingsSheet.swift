@@ -10,6 +10,7 @@ struct SettingsSheet: View {
     @AppStorage(Prefs.targetLang) private var targetLang = Language.systemTarget
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
+    @AppStorage(Prefs.crossBorderConsent) private var crossBorderConsent = false
 
     var body: some View {
         NavigationStack {
@@ -73,6 +74,16 @@ struct SettingsSheet: View {
                     }
                 } footer: {
                     Text("CatchLine doesn’t need an account. This random ID is only used to track usage time; send it to us if you want your records deleted.")
+                }
+                if crossBorderConsent {
+                    Section {
+                        Button("Withdraw Consent", role: .destructive) {
+                            crossBorderConsent = false
+                            Task { await captioner.stop() }
+                        }
+                    } footer: {
+                        Text("You agreed to audio being processed in the United States. After withdrawing, CatchLine asks again before captioning.")
+                    }
                 }
             }
             .navigationTitle("Settings")

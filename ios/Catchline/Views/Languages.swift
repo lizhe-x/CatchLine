@@ -82,4 +82,6 @@ enum Prefs {
     static let onboarded = "onboarded"
     /// The "mostly Spanish detected — set it?" tip was answered; don't ask again.
     static let sourceTipAnswered = "sourceTipAnswered"
+    /// China mainland storefront: the user agreed to audio being processed in the US.
+    static let crossBorderConsent = "crossBorderConsent"
 }
