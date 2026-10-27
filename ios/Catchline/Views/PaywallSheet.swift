@@ -22,27 +22,34 @@ struct PaywallSheet: View {
             ScrollView {
                 VStack(spacing: 20) {
                     header
+                    benefits
                     if trialUsedUp {
                         if let now = store.yearlyNow {
-                            planButton(now, title: String(localized: "Yearly – Start Now"), detail: String(localized: "\(now.displayPrice)/year, starts today"), badge: String(localized: "Save 50%"), prominent: true)
+                            planButton(now, title: String(localized: "Pro Yearly – Start Now"), detail: String(localized: "\(now.displayPrice)/year, starts today"), badge: String(localized: "Save 50%"), prominent: true)
                         }
-                    } else if let yearly = store.yearly {
-                        planButton(
-                            yearly,
-                            title: String(localized: "Yearly"),
-                            detail: store.trialEligible ? String(localized: "7 days free, then \(yearly.displayPrice)/year") : yearlyDetail(yearly),
-                            badge: String(localized: "Save 50%"),
-                            prominent: true
-                        )
-                    }
-                    if let monthly = store.monthly, !trialUsedUp {
-                        planButton(
-                            monthly,
-                            title: String(localized: "Monthly"),
-                            detail: store.trialEligible ? String(localized: "7 days free, then \(monthly.displayPrice)/month") : String(localized: "\(monthly.displayPrice)/month"),
-                            badge: store.trialEligible ? String(localized: "7-day free trial") : nil,
-                            prominent: store.yearly == nil
-                        )
+                    } else {
+                        if let yearly = store.yearly {
+                            planButton(
+                                yearly,
+                                title: String(localized: "Pro Yearly"),
+                                detail: store.trialEligible ? String(localized: "7 days free, then \(yearly.displayPrice)/year") : yearlyDetail(yearly),
+                                badge: String(localized: "Save 50%"),
+                                prominent: true
+                            )
+                        }
+                        if let monthly = store.monthly {
+                            planButton(
+                                monthly,
+                                title: String(localized: "Pro Monthly"),
+                                detail: store.trialEligible ? String(localized: "7 days free, then \(monthly.displayPrice)/month") : String(localized: "\(monthly.displayPrice)/month"),
+                                badge: store.trialEligible ? String(localized: "7-day free trial") : nil,
+                                prominent: store.yearly == nil
+                            )
+                        }
+                        // Skips the trial; during a trial it upgrades and starts the paid year today.
+                        if let now = store.yearlyNow {
+                            planButton(now, title: String(localized: "Pro Yearly – Start Now"), detail: String(localized: "No free trial. \(now.displayPrice)/year, billed today"), badge: nil, prominent: false)
+                        }
                     }
                     if store.products.isEmpty {
                         if store.productsLoaded {
@@ -102,6 +109,28 @@ struct PaywallSheet: View {
         .padding(.top, 8)
     }
 
+    /// What Pro includes (App Review 3.1.2: state what the subscription gives).
+    private var benefits: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            benefit("clock", String(localized: "40 hours of captioning every month"))
+            benefit("captions.bubble", String(localized: "Live captions for calls, meetings and conversations"))
+            benefit("translate", String(localized: "Real-time translation between \(String(Language.sonioxCodes.count)) languages"))
+            benefit("lock.iphone", String(localized: "Keeps captioning when the screen locks"))
+            benefit("square.and.arrow.up", String(localized: "Export transcripts with translations"))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(.thinMaterial, in: .rect(cornerRadius: 14))
+    }
+
+    private func benefit(_ symbol: String, _ text: String) -> some View {
+        Label {
+            Text(text).font(.subheadline)
+        } icon: {
+            Image(systemName: symbol).foregroundStyle(.tint)
+        }
+    }
+
     private func planButton(_ product: Product, title: String, detail: String, badge: String?, prominent: Bool) -> some View {
         Button {
             Task { await buy(product) }
@@ -139,12 +168,16 @@ struct PaywallSheet: View {
 
     private func yearlyDetail(_ yearly: Product) -> String {
         let perMonth = (yearly.price / 12).formatted(yearly.priceFormatStyle)
-        return String(localized: "About \(perMonth)/month, billed yearly")
+        return String(localized: "\(yearly.displayPrice)/year (about \(perMonth)/month)")
     }
 
     private var fineprint: some View {
         VStack(spacing: 8) {
             Text("Subscriptions include 40 hours a month (fair use; normal use won’t reach it). The free trial includes 3 hours. Subscriptions renew automatically unless cancelled at least 24 hours before the end of the current period in Settings → Apple Account → Subscriptions.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Text("Payment is charged to your Apple Account when you confirm the purchase, or when the free trial ends.")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

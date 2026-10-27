@@ -34,6 +34,8 @@ nonisolated enum AppConfig {
     static var autoStart: Bool { UserDefaults.standard.bool(forKey: "CatchlineAutoStart") }
     /// Launch with `-CatchlineShowSettings YES` to open Settings (screenshots).
     static var showSettings: Bool { UserDefaults.standard.bool(forKey: "CatchlineShowSettings") }
+    /// Launch with `-CatchlineShowPaywall YES` to open the paywall (screenshots).
+    static var showPaywall: Bool { UserDefaults.standard.bool(forKey: "CatchlineShowPaywall") }
     /// Launch with `-CatchlineStorefront CHN` to act as if on the China mainland App Store.
     static var storefrontOverride: String? { UserDefaults.standard.string(forKey: "CatchlineStorefront") }
     #else
@@ -41,6 +43,7 @@ nonisolated enum AppConfig {
     static let audioFilePath: String? = nil
     static let autoStart = false
     static let showSettings = false
+    static let showPaywall = false
     static let storefrontOverride: String? = nil
     #endif
 

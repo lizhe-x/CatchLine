@@ -1,0 +1,30 @@
+# Paywall for App Review 3.1.2(c) / 2.1(b): what Pro includes, the always-visible
+# "Start Now" plan, and the billing line. Appended after K6.
+K7 = [
+"Pro Yearly – Start Now",
+"No free trial. %@/year, billed today",
+"%@/year (about %@/month)",
+"40 hours of captioning every month",
+"Live captions for calls, meetings and conversations",
+"Real-time translation between %@ languages",
+"Keeps captioning when the screen locks",
+"Export transcripts with translations",
+"Payment is charged to your Apple Account when you confirm the purchase, or when the free trial ends.",
+]
+L7 = {
+"zh-Hans": ["Pro 年付 · 立即开始", "无免费试用。%@/年，今天扣费", "%@/年（约 %@/月）", "每月 40 小时字幕", "通话、会议和面对面交谈的实时字幕", "%@ 种语言之间的实时翻译", "锁屏后继续显示字幕", "导出带译文的记录", "确认购买时从你的 Apple 账户扣费；有免费试用的，在试用结束时扣费。"],
+"zh-Hant": ["Pro 年繳 · 立即開始", "無免費試用。%@/年，今天扣款", "%@/年（約 %@/月）", "每月 40 小時字幕", "通話、會議和面對面交談的即時字幕", "%@ 種語言之間的即時翻譯", "鎖定螢幕後繼續顯示字幕", "匯出含譯文的記錄", "確認購買時從你的 Apple 帳號扣款；有免費試用的，在試用結束時扣款。"],
+"es": ["Pro anual: empieza ya", "Sin prueba gratis. %@/año, se cobra hoy", "%@/año (unos %@/mes)", "40 horas de subtítulos al mes", "Subtítulos en vivo para llamadas, reuniones y conversaciones", "Traducción en tiempo real entre %@ idiomas", "Sigue subtitulando con la pantalla bloqueada", "Exporta transcripciones con traducciones", "El pago se carga a tu cuenta de Apple al confirmar la compra o al terminar la prueba gratis."],
+"fr": ["Pro annuel – dès maintenant", "Sans essai gratuit. %@/an, facturé aujourd’hui", "%@/an (environ %@/mois)", "40 heures de sous-titres par mois", "Sous-titres en direct pour appels, réunions et conversations", "Traduction en temps réel entre %@ langues", "Continue de sous-titrer écran verrouillé", "Exportez les transcriptions avec les traductions", "Le paiement est débité de votre compte Apple à la confirmation de l’achat, ou à la fin de l’essai gratuit."],
+"de": ["Pro jährlich – sofort starten", "Ohne Gratis-Testphase. %@/Jahr, Abbuchung heute", "%@/Jahr (ca. %@/Monat)", "40 Stunden Untertitel pro Monat", "Live-Untertitel für Anrufe, Meetings und Gespräche", "Echtzeit-Übersetzung zwischen %@ Sprachen", "Untertitelt weiter bei gesperrtem Bildschirm", "Transkripte mit Übersetzungen exportieren", "Die Zahlung wird bei Kaufbestätigung oder nach Ende der Gratis-Testphase über deinen Apple Account abgerechnet."],
+"pt-BR": ["Pro anual – começar agora", "Sem teste grátis. %@/ano, cobrado hoje", "%@/ano (cerca de %@/mês)", "40 horas de legendas por mês", "Legendas ao vivo para chamadas, reuniões e conversas", "Tradução em tempo real entre %@ idiomas", "Continua legendando com a tela bloqueada", "Exporte transcrições com traduções", "O pagamento é cobrado na sua Conta Apple ao confirmar a compra ou ao fim do teste grátis."],
+"ru": ["Pro на год – начать сейчас", "Без пробного периода. %@/год, оплата сегодня", "%@/год (около %@/мес.)", "40 часов субтитров в месяц", "Живые субтитры для звонков, встреч и разговоров", "Перевод в реальном времени между %@ языками", "Субтитры продолжаются при заблокированном экране", "Экспорт расшифровок с переводом", "Оплата списывается с вашего Apple Account при подтверждении покупки или по окончании пробного периода."],
+"ja": ["Pro 年額 – 今すぐ開始", "無料トライアルなし。%@/年、本日請求", "%@/年（約 %@/月）", "毎月 40 時間の字幕", "通話・会議・会話のライブ字幕", "%@ 言語間のリアルタイム翻訳", "画面ロック中も字幕を継続", "翻訳付きの書き起こしを書き出し", "お支払いは購入確定時、または無料トライアル終了時に Apple アカウントに請求されます。"],
+"ko": ["Pro 연간 – 지금 시작", "무료 체험 없음. %@/년, 오늘 결제", "%@/년(월 약 %@)", "매월 40시간 자막", "통화, 회의, 대화를 위한 실시간 자막", "%@개 언어 간 실시간 번역", "화면이 잠겨도 자막 계속", "번역이 포함된 기록 내보내기", "구매를 확인할 때 또는 무료 체험이 끝날 때 Apple 계정으로 결제됩니다."],
+"it": ["Pro annuale – inizia ora", "Senza prova gratuita. %@/anno, addebito oggi", "%@/anno (circa %@/mese)", "40 ore di sottotitoli al mese", "Sottotitoli dal vivo per chiamate, riunioni e conversazioni", "Traduzione in tempo reale tra %@ lingue", "Continua a sottotitolare a schermo bloccato", "Esporta trascrizioni con traduzioni", "Il pagamento viene addebitato sul tuo Account Apple alla conferma dell’acquisto o al termine della prova gratuita."],
+"ar": ["Pro سنوي – ابدأ الآن", "بدون تجربة مجانية. %@/سنة، يُدفع اليوم", "%@/سنة (نحو %@/شهر)", "40 ساعة من الترجمة النصية شهريًا", "ترجمة نصية مباشرة للمكالمات والاجتماعات والمحادثات", "ترجمة فورية بين %@ لغة", "تستمر الترجمة النصية عند قفل الشاشة", "تصدير النصوص مع الترجمات", "يُحصَّل المبلغ من حساب Apple عند تأكيد الشراء، أو عند انتهاء التجربة المجانية."],
+"hi": ["Pro सालाना – अभी शुरू करें", "कोई मुफ़्त ट्रायल नहीं। %@/साल, आज बिल होगा", "%@/साल (लगभग %@/माह)", "हर महीने 40 घंटे कैप्शन", "कॉल, मीटिंग और बातचीत के लिए लाइव कैप्शन", "%@ भाषाओं के बीच रियल-टाइम अनुवाद", "स्क्रीन लॉक होने पर भी कैप्शन जारी", "अनुवाद के साथ ट्रांसक्रिप्ट एक्सपोर्ट करें", "भुगतान खरीदारी की पुष्टि पर, या मुफ़्त ट्रायल ख़त्म होने पर, आपके Apple खाते से लिया जाता है।"],
+"id": ["Pro Tahunan – Mulai Sekarang", "Tanpa uji coba gratis. %@/tahun, ditagih hari ini", "%@/tahun (sekitar %@/bulan)", "40 jam teks setiap bulan", "Teks langsung untuk panggilan, rapat, dan percakapan", "Terjemahan real-time antara %@ bahasa", "Tetap menampilkan teks saat layar terkunci", "Ekspor transkrip beserta terjemahan", "Pembayaran ditagihkan ke Akun Apple Anda saat pembelian dikonfirmasi, atau saat uji coba gratis berakhir."],
+"vi": ["Pro hằng năm – Bắt đầu ngay", "Không dùng thử miễn phí. %@/năm, thanh toán hôm nay", "%@/năm (khoảng %@/tháng)", "40 giờ phụ đề mỗi tháng", "Phụ đề trực tiếp cho cuộc gọi, cuộc họp và trò chuyện", "Dịch thời gian thực giữa %@ ngôn ngữ", "Vẫn hiển thị phụ đề khi khóa màn hình", "Xuất bản ghi kèm bản dịch", "Khoản thanh toán được tính vào Tài khoản Apple khi bạn xác nhận mua, hoặc khi hết thời gian dùng thử miễn phí."],
+"tr": ["Pro Yıllık – Hemen Başla", "Ücretsiz deneme yok. %@/yıl, bugün tahsil edilir", "%@/yıl (ayda yaklaşık %@)", "Her ay 40 saat altyazı", "Aramalar, toplantılar ve sohbetler için canlı altyazı", "%@ dil arasında gerçek zamanlı çeviri", "Ekran kilitliyken de altyazıya devam eder", "Çevirili dökümleri dışa aktarın", "Ödeme, satın almayı onayladığınızda veya ücretsiz deneme bittiğinde Apple Hesabınızdan alınır."],
+}

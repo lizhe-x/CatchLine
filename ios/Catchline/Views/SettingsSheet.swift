@@ -99,7 +99,7 @@ struct SettingsSheet: View {
     private var planName: String {
         switch captioner.plan?.kind {
         case .trial: String(localized: "Free trial")
-        case .paid: store.activeTransaction?.productID == AppConfig.yearlyProductID ? String(localized: "Pro Yearly") : String(localized: "Pro Monthly")
+        case .paid: [AppConfig.yearlyProductID, AppConfig.yearlyNowProductID].contains(store.activeTransaction?.productID ?? "") ? String(localized: "Pro Yearly") : String(localized: "Pro Monthly")
         case .free, nil: String(localized: "Free (3 minutes a day)")
         }
     }
