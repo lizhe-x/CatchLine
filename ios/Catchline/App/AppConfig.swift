@@ -17,6 +17,9 @@ nonisolated enum AppConfig {
     static let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     static let privacyURL = URL(string: "https://catchline.deskfox.cn/privacy.html")!
     static let fairUseURL = URL(string: "https://catchline.deskfox.cn/fair-use.html")!
+    /// MIIT App filing number, shown in Settings on the China mainland App Store.
+    static let icpNumber = "京ICP备2026019375号-5A"
+    static let icpURL = URL(string: "https://beian.miit.gov.cn")!
 
     static let sonioxWebSocketURL = URL(string: "wss://stt-rt.soniox.com/transcribe-websocket")!
     /// Current real-time model per GET https://api.soniox.com/v1/models (2026-10).

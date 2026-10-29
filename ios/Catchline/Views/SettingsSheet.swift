@@ -11,6 +11,7 @@ struct SettingsSheet: View {
     @AppStorage(Prefs.terms) private var terms = ""
     @AppStorage(Prefs.background) private var background = ""
     @AppStorage(Prefs.crossBorderConsent) private var crossBorderConsent = false
+    @State private var isMainlandChina = false
 
     var body: some View {
         NavigationStack {
@@ -85,7 +86,17 @@ struct SettingsSheet: View {
                         Text("You agreed to audio being processed in the United States. After withdrawing, CatchLine asks again before captioning.")
                     }
                 }
+                if isMainlandChina {
+                    Section {
+                        Link(AppConfig.icpNumber, destination: AppConfig.icpURL)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .listRowBackground(Color.clear)
+                }
             }
+            .task { isMainlandChina = await AppConfig.isMainlandChinaStorefront() }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
