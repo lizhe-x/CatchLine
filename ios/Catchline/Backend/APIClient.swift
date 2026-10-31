@@ -111,7 +111,15 @@ final class APIClient {
 
         if !AppConfig.useLocalMock {
             let keyId = try await registeredKeyId()
-            let assertion = try await attest.generateAssertion(keyId, clientDataHash: Data(SHA256.hash(data: data)))
+            let assertion: Data
+            do {
+                assertion = try await attest.generateAssertion(keyId, clientDataHash: Data(SHA256.hash(data: data)))
+            } catch let error as DCError where !retried && [.invalidKey, .invalidInput].contains(error.code) {
+                // The Secure Enclave no longer accepts this key (restored device, or a
+                // build with a different App Attest environment): re-attest once.
+                keyItem.delete()
+                return try await sendSigned(path, as: type, retried: true)
+            }
             request.setValue(keyId, forHTTPHeaderField: "X-Attest-Key-Id")
             request.setValue(assertion.base64EncodedString(), forHTTPHeaderField: "X-Attest-Assertion")
         }
